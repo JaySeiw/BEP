@@ -1,17 +1,24 @@
-% Import ObstacleMatrix and rectanglematrix from ObstacleBuilder
-ObstacleMatrix=readmatrix('ObstacleMap.csv'); %map of obstacles with [x1,y1,x2,y2]
-RectangleMatrix=readmatrix('RectangleMatrix.csv'); %Rectanglematrix with [i,x,y,w,h]
-Height=height(RectangleMatrix); %count rows of matrix
+
 %% Global variables:
 Xmax
 Ymax
-Global Height;
-GRectanglematrix;
-Obstaclematrix;
-Length;
-Nodes;
+global RectangleMatrix; 
+RectangleMatrix=readmatrix("RectangleMatrix.csv");% Rectanglematrix with [i,x,y,w,h]
+global ObstacleMatrix;
+ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
+global Height;
+Height=height(RectangleMatrix); % Count rows of RectangleMatrix
+global Length;
+Length=3;
+global Nodes
+Nodes=1000;
 Start;
 NodeMatrix;
+
+%Variables
+% Import ObstacleMatrix and rectanglematrix from ObstacleBuilder
+ObstacleMatrix=
+RectangleMatrix=readmatrix('RectangleMatrix.csv'); 
 
 %function [outputs] = name(inputs); sample
 

@@ -1,8 +1,10 @@
 %function [outputs] = name(inputs); sample
 %% Global variables:
-Xmax
-Ymax
-global RectangleMatrix; 
+global Xmax;
+Xmax=50;
+global Ymax;
+Ymax=50;
+global RectangleMatrix;
 RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y,w,h]
 global ObstacleMatrix;
 ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
@@ -17,16 +19,20 @@ global NodeMatrix;
 NodeMatrix=zeros(1,3);
 Nodematrix(1,:)=Start; % Add start to nodematrix
 
+
+global i;
 i=1;
 % While loop node creation
-while 1<Nodes+1 
-    %Function for creating new nodes, 
-function [Xnew, Ynew, Parent,] = Nodecreator( matrix(of all nodes, with start), Length);
-
-function [marker] = IntersectionDetector(Xnew, Ynew, Parent, Obstaclematrix, Height, edgeXobstacle);
+while i<Nodes+1
+    %Function for creating new nodes,
+    Node=Nodecreator( NodeMatrix, Length);
+    %function [intersect] = IntersectionDetector(Xnew, Ynew, Parent, Obstaclematrix, Height, edgeXobstacle);
     %add node to matrix if marker==0
+    if intersect==0
+        i=i+1;
+    end
 end
 
-%% find if node is near goal, determine which node along with chain of parents gives shortest route
+    %% find if node is near goal, determine which node along with chain of parents gives shortest route
 
-%% Drawing part
+    %% Drawing part

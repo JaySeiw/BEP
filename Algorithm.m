@@ -52,6 +52,8 @@ while i<Nodes+1
         %determine row where parent node is
         Parent=find(LM==min(LM));
     end
+
+    
     %Set marker to 0
     marker=0;
     % set k to 1 as counter of rows starting at the first row
@@ -61,7 +63,10 @@ while i<Nodes+1
         % Check if node is within obstacle
         Xi=discretize(randXNode,[ObstacleMatrix(k,1),ObstacleMatrix(k,3)])==1;
         Yi=discretize(randYNode,[ObstacleMatrix(k,2),ObstacleMatrix(k,4)])==1;
-        if Xi&&Yi==1
+        %check if edge intersects with obstacle
+        [valid] = edgeXobstacle(randXNode,randYNode, Parent);
+
+        if (Xi&&Yi==1)||valid==false
             %disp('crossing');
             % Re-assign new random coordinates
             randXNode=Xmax*rand;
@@ -75,6 +80,8 @@ while i<Nodes+1
         end
 
     end
+
+
     %if any alteration has been made in the obstacle while loop, then the random point will have been changed. This means we need to re-evaluate the parent and possibly reposition the point completely
     if marker==0
         %disp('pass'); % Expecting N-1 passes with a few extra crossings maybe
@@ -86,6 +93,9 @@ while i<Nodes+1
 
     end
 end
+
+
+
 %% drawing everything
 figure ('Name','Nodes');
 %hold on so that all further drawings are stacked on top of eachother
@@ -112,3 +122,41 @@ while k<Nodes+2
     k=k+1;
 end
 
+
+
+%function to check if the edge connecting the new node to the parent node doesnt intersect with any obstacles
+
+
+function [valid] = edgeXobstacle(NewX,NewY, ParentNode)
+% NewNode:(randXNode and randYNode) [x1,y1]
+%ParentNode: x and y coordinates of the parent node [x2,y2]
+% edges: a matrix representing all the lines of the obstacles. (size N x 4
+% in the form N x [x1, y1, x2, y2])
+% first creating a matrix with all the edges of the obstacles in the form
+% (x1,y1,x2,y2) to use in the function
+% preallocate matrix to store edges (multiplied by 4 because each rectangle has 4 edges)
+edges = zeros(size(RectangleMatrix,1)*4,4); 
+
+for i = 1:size(RectangleMatrix,1)
+    x1 = RectangleMatrix(i,2); % x coordinate of bottom left corner
+    y1 = RectangleMatrix(i,3); % y coordinate of bottom left corner
+    w = RectangleMatrix(i,4); % width of rectangle
+    h = RectangleMatrix(i,5); % height of rectangle
+    
+    % Extract edges and store in edges matrix
+    edges((i-1)*4+1,:) = [x1,y1,x1+w,y1]; % bottom edge
+    edges((i-1)*4+2,:) = [x1,y1,x1,y1+h]; % left edge
+    edges((i-1)*4+3,:) = [x1+w,y1,x1+w,y1+h]; % right edge
+    edges((i-1)*4+4,:) = [x1,y1+h,x1+w,y1+h]; % top edge
+end
+
+% Check if the line between NewNode and ParentNode intersects with any of the lines
+[intx, inty] = polyxpoly([NewX, ParentNode(1)], [NewY, ParentNode(2)], edges(:,1:2), edges(:,3:4));
+
+% If there is an intersection point, the line is invalid
+if ~isempty(intx)
+    valid = false;
+else
+    valid = true;
+end
+end

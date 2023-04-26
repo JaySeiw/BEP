@@ -128,7 +128,9 @@ end
 
 
 function [valid] = edgeXobstacle(NewX,NewY, ParentNode)
-% NewNode:(randXNode and randYNode) [x1,y1]
+RectangleMatrix=readmatrix('RectangleMatrix.csv'); %Rectanglematrix with [i,x,y,w,h]
+% NewX:randXNode[x1]
+% NewY:randYNode[y1]
 %ParentNode: x and y coordinates of the parent node [x2,y2]
 % edges: a matrix representing all the lines of the obstacles. (size N x 4
 % in the form N x [x1, y1, x2, y2])

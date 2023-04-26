@@ -128,6 +128,8 @@ end
 
 
 function [valid] = edgeXobstacle(NewX,NewY, ParentNode)
+global RectangleMatrix
+RectangleMatrix=readmatrix('RectangleMatrix.csv'); %Rectanglematrix with [i,x,y,w,h]
 % NewNode:(randXNode and randYNode) [x1,y1]
 %ParentNode: x and y coordinates of the parent node [x2,y2]
 % edges: a matrix representing all the lines of the obstacles. (size N x 4

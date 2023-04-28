@@ -13,7 +13,7 @@ Height=height(RectangleMatrix); %count rows of matrix
 Nodes=1000; %N number of nodes
 Length=2.5; %L max length for a node to be connected to an other
 mat=zeros(1,3);
-%% Node creation
+% Node creation
 start=[4,5,0];
 %add the start to mat
 mat(1,:)=start;
@@ -58,7 +58,7 @@ while i<Nodes+1
         % Check if node is within obstacle
         Xi=discretize(randXNode,[ObstacleMatrix(k,1),ObstacleMatrix(k,3)])==1;
         Yi=discretize(randYNode,[ObstacleMatrix(k,2),ObstacleMatrix(k,4)])==1;
-        if Xi&&Yi==1 || valid==false
+        if Xi&&Yi==1 
             % Set counter to break the while loop, because an intersection has been found
             k=Height+1;
             % If node is not in obstacle continue to next row

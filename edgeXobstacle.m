@@ -1,4 +1,4 @@
-function [valid] = edgeXobstacle(NewX, NewY, Parent, RectangleMatrix)
+function [valid, intx] = edgeXobstacle(NewX, NewY, Parent, RectangleMatrix)
 global NodeMatrix;
 %RectangleMatrix=readmatrix('RectangleMatrix.csv'); %Rectanglematrix with [i,x,y,w,h]
 % NewX:randXNode[x1]
@@ -25,7 +25,7 @@ for i = 1:size(RectangleMatrix,1)
 end
 
 % Check if the line between NewNode and ParentNode intersects with any of the lines
-[intx] = polyxpoly([NewX, NodeMatrix(Parent,1)], [NewY, NodeMatrix(Parent,2)], edges(:,1:2), edges(:,3:4));
+intx = polyxpoly([NewX, NodeMatrix(Parent,1)], [NewY, NodeMatrix(Parent,2)], edges(:,1:2), edges(:,3:4));
 
 % If there is an intersection point, the line is invalid
 if ~isempty(intx)

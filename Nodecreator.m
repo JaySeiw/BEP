@@ -1,9 +1,4 @@
-
 function [Xnew, Ynew, LM, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length)
-global NodeMatrix
-global Xmax
-global Ymax
-global Length
 %creating random point in space
 randXNode=Xmax*rand;
 randYNode=Ymax*rand;

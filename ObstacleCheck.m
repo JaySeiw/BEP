@@ -14,5 +14,6 @@ while k<Height+1
         marker=1;
     else
         k=k+1;
+        marker=0;
     end
 end

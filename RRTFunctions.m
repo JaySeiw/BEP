@@ -17,7 +17,7 @@ Nodes=1000;
 Start=[4,5,0];
 global NodeMatrix;
 NodeMatrix=zeros(1,3);
-Nodematrix(1,:)=Start; % Add start to nodematrix
+NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 
 global i;
@@ -25,10 +25,16 @@ i=1;
 % While loop node creation
 while i<Nodes+1
     %Function for creating new nodes,
-    Node=Nodecreator( NodeMatrix, Length);
+    [Xnew, Ynew, LM, Parent] = Nodecreator( NodeMatrix, Length);
+    %function for checking if the node/ line from node to parent node intersects with any obstacle
     %function [intersect] = IntersectionDetector(Xnew, Ynew, Parent, Obstaclematrix, Height, edgeXobstacle);
+    [marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix);
+    [valid] = edgeXobstacle(Xnew, Ynew, Parent);
+
     %add node to matrix if marker==0
-    if intersect==0
+    if marker==0 && valid==false
+        %go to the end of NodeMatrix and add a new row where the new values are inserted
+        NodeMatrix(end+1,:)=[Xnew Ynew Parent];
         i=i+1;
     end
 end

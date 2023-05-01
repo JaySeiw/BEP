@@ -20,7 +20,7 @@ global NodeMatrix;
 NodeMatrix=zeros(1,3);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
-Goal=[31,26,0];
+Goal=[16,45,0];
 
 
 i=1;
@@ -70,8 +70,6 @@ NodeMatrix(end,3)=GN;
 figure ('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]);
 %hold on so that all further drawings are stacked on top of eachother
 hold on
-%place the start as a blue diamond
-
 axis([0, Xmax, 0, Ymax]);
 %place all the nodes as red crosses
 scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.');
@@ -93,3 +91,14 @@ while k<Nodes+3
 end
 scatter(NodeMatrix(1,1),NodeMatrix(1,2), 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',2);
 scatter(NodeMatrix(end,1),NodeMatrix(end,2), 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',2);
+
+
+
+%%change road to goal from blue mark to green mark
+p=Nodes+2;
+while p>1
+    dxG= [NodeMatrix(p,1), NodeMatrix(NodeMatrix(p,3),1)];
+    dyG= [NodeMatrix(p,2), NodeMatrix(NodeMatrix(p,3),2)];
+    plot(dxG, dyG, 'g');
+    p=NodeMatrix(p,3);
+end

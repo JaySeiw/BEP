@@ -1,5 +1,4 @@
-function [marker] = ObstacleCheck(Height, randXNode, randYNode, ObstacleMatrix)
-
+function [marker] = ObstacleCheck(Height, randXNode, randYNode, ObstacleMatrix, marker)
 % set k to 1 as counter of rows starting at the first row
 k=1;
 %going through obstacles within row k
@@ -14,6 +13,5 @@ while k<Height+1
         marker=1;
     else
         k=k+1;
-        marker=0;
     end
 end

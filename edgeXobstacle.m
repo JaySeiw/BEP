@@ -1,6 +1,6 @@
-function [valid] = edgeXobstacle(NewX, NewY, Parent)
+function [valid] = edgeXobstacle(NewX, NewY, Parent, RectangleMatrix)
 global NodeMatrix;
-RectangleMatrix=readmatrix('RectangleMatrix.csv'); %Rectanglematrix with [i,x,y,w,h]
+%RectangleMatrix=readmatrix('RectangleMatrix.csv'); %Rectanglematrix with [i,x,y,w,h]
 % NewX:randXNode[x1]
 % NewY:randYNode[y1]
 %ParentNode: x and y coordinates of the parent node [x2,y2]

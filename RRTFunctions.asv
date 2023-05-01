@@ -30,7 +30,7 @@ while i<Nodes+1
     [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
     %function [intersect] = IntersectionDetector(Xnew, Ynew, Parent, Obstaclematrix, Height, edgeXobstacle);
-    [marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix, marker);
+    [marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix);
     %[valid] = edgeXobstacle(Xnew, Ynew, Parent, RectangleMatrix);
 
     %add node to matrix if marker==0

@@ -1,4 +1,4 @@
-function [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length)
+function [Xnew, Ynew, LengthMatrix, Parent, Cost] = Nodecreator(Xmax, Ymax, NodeMatrix, Length)
 % Assign random coordinates
     randXNode=Xmax*rand;
     randYNode=Ymax*rand;
@@ -17,12 +17,19 @@ function [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix
         %set point in same line, but with length L
         randXNode=Length*cos(theta)+NodeMatrix(ClosestPoint,1);
         randYNode=Length*sin(theta)+NodeMatrix(ClosestPoint,2);
-        %make matrix where [x1-xi y1-yi] with i rows because we are not intereste in points of zero starting with starting point
-        DistanceMatrix=NodeMatrix(:,[1 2])-[randXNode randYNode];
+        %add length of path to the cost; this is standard the Length, as we have steered this
+        Cost=NodeMatrix(ClosestPoint,4) + Length;
+        %this part is out o f order
+
+        %make matrix where [x1-xi y1-yi] with i rows because we are not interested in points of zero starting with starting point
+        %DistanceMatrix=NodeMatrix(:,[1 2])-[randXNode randYNode];
         %calculate length from new point to all points
-        LengthMatrix=[sqrt(DistanceMatrix(:,1).^2+DistanceMatrix(:,2).^2)];
+        %LengthMatrix=[sqrt(DistanceMatrix(:,1).^2+DistanceMatrix(:,2).^2)];
         %re-find smallest length to point
-        ClosestPoint=find(LengthMatrix==min(LengthMatrix));
+        %ClosestPoint=find(LengthMatrix==min(LengthMatrix));
+    else
+        %add length of path to the cost
+        Cost=NodeMatrix(ClosestPoint,4) + LengthMatrix(ClosestPoint);
     end
     Parent=ClosestPoint;
 

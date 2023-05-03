@@ -14,10 +14,10 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 global Length;
 Length=3; % L max length for a node to be connected to an other
 global Nodes
-Nodes=6000; %go crazy with the numbers!
+Nodes=2000; %go crazy with the numbers!
 Start=[4,5,0];
-global NodeMatrix; %matrix of all the nodes created with x,y coordinates and its closest parent
-NodeMatrix=zeros(1,3);
+global NodeMatrix; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
+NodeMatrix=zeros(1,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 % the edges part should be moved towards obstacle creator so an export of edges can be made. Not at the top of our list, but it slims down the main RRT code

@@ -14,7 +14,7 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 global Length;
 Length=3; % L max length for a node to be connected to an other
 global Nodes
-Nodes=200; %go crazy with the numbers!
+Nodes=50; %go crazy with the numbers!
 Start=[4,5,0,0];
 global NodeMatrix; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
 NodeMatrix=zeros(1,4);
@@ -60,8 +60,7 @@ while i<Nodes+1
     end
 end
 NodeMatrix(end+1,:)=Goal;
-[NodeLengthMatrix] = NodeRewire (NodeMatrix, Nodes, Length);
-NodeLengthMatrix
+[NodeMatrix] = NodeRewire (NodeMatrix, Nodes, Length);
 
 
 %% find if node is near goal, determine which node along with chain of parents gives shortest route

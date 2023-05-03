@@ -1,4 +1,4 @@
-function [NodeMatrix] = NodeRewire(NodeMatrix, Nodes, Length)
+function [NodeMatrix, NodeLengthMatrix] = NodeRewire(NodeMatrix, Nodes, Length)
 %make a for loop to check every node with length, select new parent
 % for a point we could only look in the interval of Length, saves a lot of computing.
 % Use the find function and associate all locations in that area with the row from the NodeMatrix, so we do not lose its identity
@@ -17,15 +17,30 @@ for a=2:Nodes+1
     FNy=find(~isnan(NRy));
     %find which points are on both intervals using intersect function
     Nodex=intersect(FNx, FNy);
+
+    Nodex(find(Nodex(:,1)==a),:)=[];
     %take height from this matrix to create a length matrix, where we can quickly filter out the node closest to the node
-    NodeLengthMatrix=zeros(height(Nodex),2);
+    NodeLengthMatrix=zeros(height(Nodex),3);
     %Select row B of Nodex, where the original node number is known
     for b=1:height(Nodex)
-    %Make a matrix with the node number, the length to the node and the original path cost
-        NodeLengthMatrix(a,:)=[Nodex(b), sqrt( (NodeMatrix(Nodex(b),1)-NodeMatrix(a,1))^2+(NodeMatrix(Nodex(b),2)-NodeMatrix(a,2))^2 ), NodeMatrix(Nodex(b),4)];
+        %Make a matrix with the node number, the length to the node and the original path cost
+        NodeLengthMatrix(b,:)=[Nodex(b), sqrt( (NodeMatrix(Nodex(b),1)-NodeMatrix(a,1))^2+(NodeMatrix(Nodex(b),2)-NodeMatrix(a,2))^2 ), NodeMatrix(Nodex(b),4)];
     end
-
-%recalculate the path cost?
+    %Remove nodes where length is larger than length
+    NodeLengthMatrix(find(NodeLengthMatrix(:,2)>Length),:)=[];
+    %Check if there are any nodes left
+    if ~isempty(NodeLengthMatrix)
+        %Select row where cost is smallest
+        row=find(NodeLengthMatrix(3)==min(NodeLengthMatrix(3)));
+        Parent=NodeLengthMatrix(row,1)
+        %Add new parent to NodeMatrix
+        NodeMatrix(a,3)=Parent;
+        %Get length from
+        NL=NodeLengthMatrix(find( NodeLengthMatrix(1)==NodeLengthMatrix(Parent) ) ,2);
+        NL
+        %NodeMatrix(a,4)=NodeMatrix(Parent,4);
+    end
+    %recalculate the path cost?
 
 end
 

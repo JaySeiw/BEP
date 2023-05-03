@@ -1,9 +1,5 @@
-function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection)
+function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection)
 global NodeMatrix;
-global RectangleMatrix;
-global edges;
-
-
 
 %% Point in obstacle part
 % set k to 1 as counter of rows starting at the first row

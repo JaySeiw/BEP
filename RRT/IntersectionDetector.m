@@ -1,7 +1,5 @@
-function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection)
+function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection)
 global NodeMatrix;
-global RectangleMatrix;
-global edges;
 
 
 

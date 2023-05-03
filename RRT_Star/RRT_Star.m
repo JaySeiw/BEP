@@ -9,6 +9,8 @@ global RectangleMatrix;
 RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y,w,h]
 global ObstacleMatrix;
 ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
+global edges;
+edges=readmatrix("edges.csv");% a matrix representing all the lines of the obstacles. (size N x 4 in the form N x [x1, y1, x2, y2])
 global Height;
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 global Length;
@@ -20,25 +22,6 @@ global NodeMatrix; %matrix of all the nodes created with x,y coordinates and its
 NodeMatrix=zeros(1,3);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
-% the edges part should be moved towards obstacle creator so an export of edges can be made. Not at the top of our list, but it slims down the main RRT code
-
-global edges; %edges of the obstacles will be put into a matrix, 4 lines per rectangle means 4 rows per object
-% edges: a matrix representing all the lines of the obstacles. (size N x 4 in the form N x [x1, y1, x2, y2])
-    % first creating a matrix with all the edges of the obstacles in the form
-    % (x1,y1,x2,y2) to use in the function
-    % preallocate matrix to store edges (multiplied by 4 because each rectangle has 4 edges)
-    edges = zeros(size(RectangleMatrix,1)*4,4);
-    for i = 1:size(RectangleMatrix,1)
-        x1 = RectangleMatrix(i,2); % x coordinate of bottom left corner
-        y1 = RectangleMatrix(i,3); % y coordinate of bottom left corner
-        w = RectangleMatrix(i,4); % width of rectangle
-        h = RectangleMatrix(i,5); % height of rectangle
-        % Extract edges and store in edges matrix
-        edges((i-1)*4+1,:) = [x1,y1,x1+w,y1]; % bottom edge
-        edges((i-1)*4+2,:) = [x1,y1,x1,y1+h]; % left edge
-        edges((i-1)*4+3,:) = [x1+w,y1,x1+w,y1+h]; % right edge
-        edges((i-1)*4+4,:) = [x1,y1+h,x1+w,y1+h]; % top edge
-    end
 
 % Goal node
 Goal=[16,45,0];
@@ -51,7 +34,7 @@ while i<Nodes+1
     %Function for creating new nodes,
     [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
-    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection);
+    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection);
     %[marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix, marker);
     %[valid, intx] = edgeXobstacle(Xnew, Ynew, Parent, RectangleMatrix);
 

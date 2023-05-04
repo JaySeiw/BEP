@@ -20,7 +20,7 @@ for a=2:i
     Nodex=intersect(FNx, FNy);
     %Remove node that has no length, and is the node investigated itself
     Nodex(find(Nodex==a),:)=[];
-    %a
+    a
     %Nodex
     %take height from this matrix to create a length matrix, where we can quickly filter out the node closest to the node
     NodeLengthMatrix=zeros(height(Nodex),3);
@@ -45,7 +45,7 @@ for a=2:i
     if ~isempty(NodeLengthMatrix)
         %Determine new cost to node(s)
         NC=NodeMatrix(a,4)+NodeLengthMatrix(:,2);
-        cost=NodeMatrix(a,4)
+        cost=NodeMatrix(a,4);
         %NC
         %find row in Nodelengthmatrix where if statement mentioned above is true
         row=find(NC<NodeLengthMatrix(:,3));

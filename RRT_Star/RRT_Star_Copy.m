@@ -14,7 +14,7 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 global Length;
 Length=3; % L max length for a node to be connected to an other
 global Nodes
-Nodes=200; %go crazy with the numbers!
+Nodes=2000; %go crazy with the numbers!
 Start=[4,5,0,0];
 global NodeMatrix; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
 NodeMatrix=zeros(1,4);

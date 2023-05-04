@@ -1,7 +1,15 @@
-function [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length)
+function [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length, Goal)
 % Assign random coordinates
-    randXNode=Xmax*rand;
-    randYNode=Ymax*rand;
+    DiceThrow=randi(100);
+    GoalSteerPerc=10;
+    
+    if DiceThrow<GoalSteerPerc
+        randXNode=16+0.0001*rand;
+        randYNode=45+0.0001*rand;
+    else
+        randXNode=Xmax*rand;
+        randYNode=Ymax*rand;
+    end
     % Locating nearest point
     %make matrix where [x1-xi y1-yi] with i rows because we are not intereste in points of zero starting with starting point
     DistanceMatrix=[randXNode randYNode]-NodeMatrix(:,[1 2]);

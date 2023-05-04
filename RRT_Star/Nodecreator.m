@@ -18,7 +18,7 @@ function [Xnew, Ynew, LengthMatrix, Parent, Cost] = Nodecreator(Xmax, Ymax, Node
         randXNode=Length*cos(theta)+NodeMatrix(ClosestPoint,1);
         randYNode=Length*sin(theta)+NodeMatrix(ClosestPoint,2);
         %add length of path to the cost; this is standard the Length, as we have steered this
-        Cost=NodeMatrix(ClosestPoint,4) + Length;
+        Cost=NodeMatrix(ClosestPoint,4) + sqrt((Length*cos(theta))^2+(Length*sin(theta)^2));
         %this part is out o f order
 
         %make matrix where [x1-xi y1-yi] with i rows because we are not interested in points of zero starting with starting point

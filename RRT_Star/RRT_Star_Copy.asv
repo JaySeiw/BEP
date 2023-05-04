@@ -14,7 +14,7 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 global Length;
 Length=3; % L max length for a node to be connected to an other
 global Nodes
-Nodes=100; %go crazy with the numbers!
+Nodes=200; %go crazy with the numbers!
 Start=[4,5,0,0];
 global NodeMatrix; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
 NodeMatrix=zeros(1,4);
@@ -56,7 +56,7 @@ while i<Nodes+1
     if intersection==0
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent, Cost];
-        [NodeMatrix] = NodeRewire (NodeMatrix, Nodes, Length,i); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
+        %[NodeMatrix] = NodeRewire (NodeMatrix, Nodes, Length,i); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
         i=i+1;
     end
 

@@ -54,6 +54,7 @@ while i<Nodes+1
     [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection);
     %add node to matrix if intersection==0
     if intersection==0
+        %% check where to connect it to the node, connect to lowest cost around
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent, Cost];
         [NodeMatrix] = NodeRewire (NodeMatrix, Nodes, Length,i); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value

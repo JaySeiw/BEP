@@ -1,5 +1,7 @@
-function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection)
+%function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection)
 global NodeMatrix;
+
+function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges, NodeMatrix)
 
 %% Point in obstacle part
 % set k to 1 as counter of rows starting at the first row
@@ -36,7 +38,6 @@ if intersection~=1
         else
             i=size(edges,1)+1;
             intersection=1;
-            disp('intersection');
         end
     end
 end

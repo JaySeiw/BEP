@@ -1,25 +1,20 @@
 %function [outputs] = name(inputs); i am just a sample
 close all hidden;
-%% Global variables:
-global Xmax;
 Xmax=50;
-global Ymax;
 Ymax=50;
-global RectangleMatrix;
+
+
 RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y,w,h]
-global ObstacleMatrix;
 ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
-global edges;
 edges=readmatrix("edges.csv"); % a matrix representing all the lines of the obstacles. (size N x 4 in the form N x [x1, y1, x2, y2])
-global Height;
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
-global Length;
+
 Length=3; % L max length for a node to be connected to an other
-global Nodes
 Nodes=1000; %go crazy with the numbers!
-Start=[4,5,0];
-global NodeMatrix; %matrix of all the nodes created with x,y coordinates and its closest parent
-NodeMatrix=zeros(1,3);
+
+Start=[4,5,0]; %start node
+
+NodeMatrix=zeros(1,3); %matrix of all the nodes created with x,y coordinates and its closest parent
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 
@@ -34,7 +29,7 @@ while i<Nodes+1
     %Function for creating new nodes,
     [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
-    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection);
+    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection, NodeMatrix);
     %[marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix, marker);
     %[valid, intx] = edgeXobstacle(Xnew, Ynew, Parent, RectangleMatrix);
 

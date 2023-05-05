@@ -34,16 +34,16 @@ while i<Nodes+1
     %Function for creating new nodes,
     [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
-<<<<<<< HEAD
-    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection);
+
+    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges);
     %[marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix, marker);
     %[valid, intx] = edgeXobstacle(Xnew, Ynew, Parent, RectangleMatrix);
 
     %add node to matrix if marker==0
-=======
-    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection);
+
+    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges);
     %add node to matrix if intersection==0
->>>>>>> bcc9e48364d99dfb21a522dc922a9e15aad6fb38
+
     if intersection==0
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent];

@@ -1,4 +1,4 @@
-function [NodeMatrix] = NodeRewire(NodeMatrix, Nodes, Length,i)
+function [NodeMatrix] = NodeRewire(NodeMatrix, Length,i)
 %make a for loop to check every node with length, select new parent
 % for a point we could only look in the interval of Length, saves a lot of computing.
 % Use the find function and associate all locations in that area with the row from the NodeMatrix, so we do not lose its identity
@@ -7,6 +7,7 @@ function [NodeMatrix] = NodeRewire(NodeMatrix, Nodes, Length,i)
 % for a point we could only look in the interval of Length, saves a lot of computing*
 % check if edgexobstacle is not true
 % look for node with lowest cost (total path length)*
+
 
 %% Select Node in row A where row 2 is node 2 and row Nodes+1 is the last of the assigned nodes
 %% we make a cube with a distance of 3 units around the node, from here we discretize points
@@ -24,12 +25,13 @@ Nodex(find(Nodex==i),:)=[];
 %take height from this matrix to create a length matrix, where we can quickly filter out the node closest to the node
 NodeLengthMatrix=zeros(height(Nodex),3);
 
+
 %% Select row B of Nodex, where the original node number is known
 for b=1:height(Nodex)
     %Make a matrix with the node number, the length to the node and the original path cost
     %Nodex(b) gives us the value of the b-th row
     L=sqrt( (NodeMatrix(Nodex(b),1)-NodeMatrix(i,1))^2+(NodeMatrix(Nodex(b),2)-NodeMatrix(i,2))^2 );
-    %Only insert if length is actually <=Length, making this interval where max length could be sqrt(2)*Length (45deg angle with sides of 3)
+    %Only insert if length is actually <=Length, otherwise the length could be up to sqrt(2)*Length (45deg angle with sides of 3)
     if L<=Length %%eventually shrink size when more nodes are added
         NodeLengthMatrix(b,:)=[Nodex(b), L , NodeMatrix(Nodex(b),4)+L];
     end

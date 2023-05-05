@@ -16,7 +16,7 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 global Length;
 Length=3; % L max length for a node to be connected to an other
 global Nodes
-Nodes=1000; %go crazy with the numbers!
+Nodes=6000; %go crazy with the numbers!
 Start=[4,5,0];
 global NodeMatrix; %matrix of all the nodes created with x,y coordinates and its closest parent
 NodeMatrix=zeros(1,3);
@@ -34,11 +34,16 @@ while i<Nodes+1
     %Function for creating new nodes,
     [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
+<<<<<<< HEAD
     [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, edges, Height, intersection);
     %[marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix, marker);
     %[valid, intx] = edgeXobstacle(Xnew, Ynew, Parent, RectangleMatrix);
 
     %add node to matrix if marker==0
+=======
+    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection);
+    %add node to matrix if intersection==0
+>>>>>>> bcc9e48364d99dfb21a522dc922a9e15aad6fb38
     if intersection==0
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent];
@@ -79,12 +84,12 @@ end
 
 
 %% Drawing part
-% Hi, I have enlarged the size of the figure down here starting with 'units'
+% Hi, I have enlarged the size of the figure down here starting from 'units'
 figure ('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]);
 %hold on so that all further drawings are stacked on top of eachother
 hold on
 axis([0, Xmax, 0, Ymax]);
-%place all the nodes as red crosses
+%place all the nodes as red dots
 scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.');
 % Draw all rectangles
 for q=1:Height

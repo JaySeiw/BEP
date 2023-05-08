@@ -11,7 +11,7 @@ RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y
 ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 Length=3; % L max length for a node to be connected to an other
-Nodes=2000; %go crazy with the numbers!
+Nodes=500; %go crazy with the numbers!
 Start=[4,5,0,0]; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
 NodeMatrix=zeros(1,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
@@ -44,7 +44,7 @@ i=1;
 % While loop node creation
 while i<Nodes+1
     intersection=0;
-    %Function for creating new nodes,
+    %Function for creating new nodes, looks for parent with smallest cost towards start
     [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
     [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges, NodeMatrix);
@@ -80,14 +80,17 @@ FGy=find(~isnan(GoalInty));
 %find which points are on both intervals using intersect function
 Goalx=intersect(FGx, FGy);
 %take height from this matrix to create a length matrix, where we can quickly filter out the node closest to the goal.... But does this mean it is also on the shortest path?
-GoalLengthMatrix=zeros(height(Goalx),2);
+GoalLengthMatrix=zeros(height(Goalx),3);
 for a=1:height(Goalx)
-    GoalLengthMatrix(a,:)=[Goalx(a), sqrt( (NodeMatrix(Goalx(a),1)-Goal(1))^2+(NodeMatrix(Goalx(a),2)-Goal(2))^2 )];
+    L=sqrt( (NodeMatrix(Goalx(a),1)-Goal(1))^2+(NodeMatrix(Goalx(a),2)-Goal(2))^2 );
+    GoalLengthMatrix(a,:)=[Goalx(a), L, NodeMatrix(Goalx(a),4)+L];
 end
 % find the value in column 1 of the row which matches the smallest value in column 2
 if ~isempty(GoalLengthMatrix)
-    GoalParentNode=GoalLengthMatrix( find( GoalLengthMatrix(2) == min(GoalLengthMatrix(2)) ) , 1); %we can probably refine this part here, but it works
-    NodeMatrix(end,[3, 4])=[GoalParentNode, NodeMatrix(GoalParentNode,4)+min(GoalLengthMatrix(:,2))];
+    [val, row]=min(GoalLengthMatrix(:,3));
+    row
+    GoalParentNode=GoalLengthMatrix(row , 1); %we can probably refine this part here, but it works
+    NodeMatrix(end,[3, 4])=[GoalParentNode, GoalLengthMatrix(row,3)];
     %Have to set some variables here to draw right amount of lines and declare that a path to the goal has been found
     a=2;
     NoGoal=0;

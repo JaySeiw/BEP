@@ -33,7 +33,7 @@ for b=1:height(Nodex)
     L=sqrt( (NodeMatrix(Nodex(b),1)-NodeMatrix(i,1))^2+(NodeMatrix(Nodex(b),2)-NodeMatrix(i,2))^2 );
     %Only insert if length is actually <=Length, otherwise the length could be up to sqrt(2)*Length (45deg angle with sides of 3)
     if L<=Length %%eventually shrink size when more nodes are added
-        NodeLengthMatrix(b,:)=[Nodex(b), L , NodeMatrix(Nodex(b),4)+L];
+        NodeLengthMatrix(b,:)=[Nodex(b), L , NodeMatrix(Nodex(b),4)];
     end
 end
 NodeLengthMatrix( all(~NodeLengthMatrix,2),:)=[];
@@ -53,10 +53,12 @@ if ~isempty(NodeLengthMatrix)
     row=find(NC<NodeLengthMatrix(:,3));
     %row
     if ~isempty(row)
+        %change parent of selected node to the node in the i-th row
         NodeMatrix(NodeLengthMatrix(row,1),3)=i;
+        %change cost of selected node to cost of i-th row node + length to node in i-th row
         NodeMatrix(NodeLengthMatrix(row,1),4)=cost+NodeLengthMatrix(row,2);
     end
 end
-
+%% Update children's cost
 
 end

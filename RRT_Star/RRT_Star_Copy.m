@@ -45,7 +45,7 @@ i=1;
 while i<Nodes+1
     intersection=0;
     %Function for creating new nodes,
-    [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length);
+    [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
     [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges, NodeMatrix);
     %add node to matrix if intersection==0

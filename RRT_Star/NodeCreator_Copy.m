@@ -1,16 +1,17 @@
-function [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length)
+function [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes)
 % Assign random coordinates
 
 
-%DiceThrow=10*rand;
+DiceThrow=100*rand;
+Percentage=1-(i/Nodes);
+if DiceThrow<Percentage%||i==1
+    randXNode=15+0.0001*rand;
+    randYNode=45+0.0001*rand;
+else
+    randXNode=Xmax*rand;
+    randYNode=Ymax*rand;
+end
 
-%if DiceThrow>7
-%randXNode=15.5+rand;
-%randYNode=45.5+rand;
-%else
-randXNode=Xmax*rand;
-randYNode=Ymax*rand;
-%end
 
 
 %% Locating nearest point

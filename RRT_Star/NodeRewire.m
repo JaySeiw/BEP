@@ -44,10 +44,10 @@ if ~isempty(NodeLengthMatrix)
     NC=NodeMatrix(i,4)+NodeLengthMatrix(:,2);
     %cost of node that node(s) will be connected to
     cost=NodeMatrix(i,4);
-    %find row in Nodelengthmatrix where if statement mentioned above is true
+    %find row(s) in Nodelengthmatrix where the if statement mentioned above is true
     row=find(NC<NodeLengthMatrix(:,3));
     if ~isempty(row)
-        %change parent of selected node to the node in the i-th row
+        %change parent of selected node(s) to the node in the i-th row
         NodeMatrix(NodeLengthMatrix(row,1),3)=i;
         %change cost of selected node to cost of i-th row node + length to node in i-th row; this could be done for multiple nodes at once
         NodeMatrix(NodeLengthMatrix(row,1),4)=cost+NodeLengthMatrix(row,2);
@@ -61,8 +61,6 @@ if ~isempty(NodeLengthMatrix)
             end
             %find the children of the changed node; could be multiple children
             children=find(NodeMatrix(:,3)==NodeLengthMatrix(row(d),1));
-            NodeLengthMatrix(row(d),1)
-            children
             % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
             NodeMatrix(children,4)=NodeMatrix(children,4)+deltaC;
             %% Possibly rewire parent of all children affected to a smallest cost node?

@@ -1,5 +1,3 @@
-global NodeMatrix;
-
 function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges, NodeMatrix)
 
 %% Point in obstacle part

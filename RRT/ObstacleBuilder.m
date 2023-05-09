@@ -24,7 +24,7 @@ plot(mat(:,2),mat(:,3),'rx')
 MinObstacleCount=6;%define min amount of obstacles
 MaxObstacleCount=20;
 ObstacleCount=randi([MinObstacleCount,MaxObstacleCount]);%define max amount of obstacles
-ObstacleMatrix=zeros(ObstacleCount,5);%create obstacle matrix for rectangles where columns are: index, x, y, w, h
+RectangleMatrix=zeros(ObstacleCount,5);%create obstacle matrix for rectangles where columns are: index, x, y, w, h
 ObstacleMap=zeros(ObstacleCount,4);
 %figure('Name','Obstacles');
 %axis([0,50,0,50])
@@ -38,10 +38,10 @@ while j<=ObstacleCount %while loop for constructing obstacles
     while k<j+1 %while loop for checking all obstacles for collission with newly made obstacle
 
         %Define variables
-        OM2=ObstacleMatrix(k,2);
-        OM3=ObstacleMatrix(k,3);
-        xv=ObstacleMatrix(k,2)+ObstacleMatrix(k,4);
-        yv=ObstacleMatrix(k,3)+ObstacleMatrix(k,5);
+        OM2=RectangleMatrix(k,2);
+        OM3=RectangleMatrix(k,3);
+        xv=RectangleMatrix(k,2)+RectangleMatrix(k,4);
+        yv=RectangleMatrix(k,3)+RectangleMatrix(k,5);
         Ow=x1+w;
         Oh=y1+h;
              %Point in obstacle
@@ -165,7 +165,7 @@ while j<=ObstacleCount %while loop for constructing obstacles
      end
         
     Obstacle=[j,x1,y1,w,h];
-    ObstacleMatrix(j,:)=Obstacle;
+    RectangleMatrix(j,:)=Obstacle;
     Obstaclemapper=[x1,y1,x1+w,y1+h]; %map of obstacles with [x1,y1,x2,y2]
     ObstacleMap(j,:)=Obstaclemapper;
     rectangle('position', Obstacle(:,[2,3,4,5]));
@@ -178,12 +178,12 @@ end
     % first creating a matrix with all the edges of the obstacles in the form
     % (x1,y1,x2,y2) to use in the function
     % preallocate matrix to store edges (multiplied by 4 because each rectangle has 4 edges)
-    edges = zeros(size(ObstacleMatrix,1)*4,4);
-    for i = 1:size(ObstacleMatrix,1)
-        x1 = ObstacleMatrix(i,2); % x coordinate of bottom left corner
-        y1 = ObstacleMatrix(i,3); % y coordinate of bottom left corner
-        w = ObstacleMatrix(i,4); % width of rectangle
-        h = ObstacleMatrix(i,5); % height of rectangle
+    edges = zeros(size(RectangleMatrix,1)*4,4);
+    for i = 1:size(RectangleMatrix,1)
+        x1 = RectangleMatrix(i,2); % x coordinate of bottom left corner
+        y1 = RectangleMatrix(i,3); % y coordinate of bottom left corner
+        w = RectangleMatrix(i,4); % width of rectangle
+        h = RectangleMatrix(i,5); % height of rectangle
         % Extract edges and store in edges matrix
         edges((i-1)*4+1,:) = [x1,y1,x1+w,y1]; % bottom edge
         edges((i-1)*4+2,:) = [x1,y1,x1,y1+h]; % left edge
@@ -191,7 +191,7 @@ end
         edges((i-1)*4+4,:) = [x1,y1+h,x1+w,y1+h]; % top edge
     end
 writematrix(ObstacleMap, 'ObstacleMap.csv');
-writematrix(ObstacleMatrix, 'RectangleMatrix.csv');
+writematrix(RectangleMatrix, 'RectangleMatrix.csv');
 writematrix(edges, 'edges.csv')
 
 

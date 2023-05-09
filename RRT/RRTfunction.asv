@@ -1,35 +1,37 @@
-%function [outputs] = name(inputs); i am just a sample
+%turn the RRT to a function to make testing on different environments easy
+function [node_count, no_of_nodes_path, len_path]=RRTfunction(environment, Start, Goal, Length, Nodes)
+%addpath 'C:\Users\noorr\Documents\GitHub\BEP'\testing\'testenv'
+
+%tot_no_of_nodes: Number of nodes neede in total to reach the goal
+%no_of_nodes_path: The number of nodes on the path between the start and goal
+%len_path: The length of the path between start and goal
+%environment: RectangleMatrix,ObstacleMap and edges
+%Start: coordinates of the starting point [x,y,z]
+%Goal: coordinates of the Goal [x,y,z]
+%Length: L max length for a node to be connected to an other
+%Nodes: Number of nodes to be used
+
 close all hidden;
 Xmax=50;
 Ymax=50;
 
+[ObstacleMap, RectangleMatrix ,edges]=environments(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
 
-RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y,w,h]
-ObstacleMap=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
-edges=readmatrix("edges.csv"); % a matrix representing all the lines of the obstacles. (size N x 4 in the form N x [x1, y1, x2, y2])
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
-
-Length=3; % L max length for a node to be connected to an other
-Nodes=1000; %go crazy with the numbers!
-
-Start=[4,5,0]; %start node
 
 NodeMatrix=zeros(1,3); %matrix of all the nodes created with x,y coordinates and its closest parent
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
-
-% Goal node
-Goal=[16,45,0];
-
+node_count=1; %initialize node count to 1
 
 i=1;
 % While loop node creation
 while i<Nodes+1
     intersection=0;
     %Function for creating new nodes,
-    [Xnew, Ynew, LengthMatrix, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
+    [Xnew, Ynew, ~, Parent] = Nodecreator(Xmax, Ymax, NodeMatrix, Length);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
-    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, RectangleMatrix, edges, Height, intersection, NodeMatrix);
+    [intersection] = Copy_of_IntersectionDetector(Xnew, Ynew, Parent, ObstacleMap, edges, Height, intersection, NodeMatrix);
     %[marker] = ObstacleCheck(Height, Xnew, Ynew, ObstacleMatrix, marker);
     %[valid, intx] = edgeXobstacle(Xnew, Ynew, Parent, RectangleMatrix);
 
@@ -37,11 +39,11 @@ while i<Nodes+1
     if intersection==0
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent];
+        node_count= node_count+1; %Increment node count
         i=i+1;
     end
 end
 NodeMatrix(end+1,:)=Goal;
-
 
 
 %% find if node is near goal, determine which node along with chain of parents gives shortest route
@@ -105,10 +107,22 @@ scatter(NodeMatrix(end,1),NodeMatrix(end,2), 'mh', "filled", 'MarkerEdgeColor', 
 if NoGoal==0
     %%change road to goal from blue mark to green mark
     p=Nodes+2;
+    no_of_nodes_path=0; %initialise counter variable
+    len_path=0; %initialise length variable 
     while p>1
         dxG= [NodeMatrix(p,1), NodeMatrix(NodeMatrix(p,3),1)];
         dyG= [NodeMatrix(p,2), NodeMatrix(NodeMatrix(p,3),2)];
         plot(dxG, dyG, 'g', 'LineWidth',2);
+        % increment the counter variable by 1 for each node in the line
+        no_of_nodes_path = no_of_nodes_path + 1; 
+        % calculate the distance between the current node and the next node
+        len_path = len_path + sqrt((dxG(2)-dxG(1))^2 + (dyG(2)-dyG(1))^2);
         p=NodeMatrix(p,3);
     end
+
+NC= ['node count'node_count];
+disp(NC)
+%disp('Number of nodes in path=', no_of_nodes_path)
+%disp('Length of path=', len_path)
+end
 end

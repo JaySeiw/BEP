@@ -11,7 +11,7 @@ RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y
 ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 Length=3; % L max length for a node to be connected to an other
-Nodes=500; %go crazy with the numbers!
+Nodes=2000; %go crazy with the numbers!
 Start=[4,5,0,0]; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
 NodeMatrix=zeros(1,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
@@ -88,7 +88,7 @@ end
 % find the value in column 1 of the row which matches the smallest value in column 2
 if ~isempty(GoalLengthMatrix)
     [val, row]=min(GoalLengthMatrix(:,3));
-    row
+    %row
     GoalParentNode=GoalLengthMatrix(row , 1); %we can probably refine this part here, but it works
     NodeMatrix(end,[3, 4])=[GoalParentNode, GoalLengthMatrix(row,3)];
     %Have to set some variables here to draw right amount of lines and declare that a path to the goal has been found
@@ -108,36 +108,37 @@ figure ('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8
 %hold on so that all further drawings are stacked on top of eachother
 hold on
 axis([0, Xmax, 0, Ymax]);
-%place all the nodes as red dots
-scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.');
+axis padded
 % Draw all rectangles
 for q=1:Height
     rectangle('position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
 end
-
 %set k to 2 because we need to look at the parent of the first node, which is the origin
 k=2;
-% look for all the points within mat. We want to make a plot that contains [X1 X2]=dx and [Y1 Y2]=dy
+% look for all the points within NodeMatrix. We want to make a plot that contains [X1 X2]=dx and [Y1 Y2]=dy
 while k<Nodes+a+1
     %X1 is in row k and X2 is in the row of the parent (mentioned in column 3)
     dx=[NodeMatrix(k,1), NodeMatrix(NodeMatrix(k,3),1)];
     dy=[NodeMatrix(k,2), NodeMatrix(NodeMatrix(k,3),2)];
     %plot the line with a blue colour
-    plot(dx, dy, 'b');
+    plot(dx, dy, 'b', 'HandleVisibility','off');
     %cycle to next row
     k=k+1;
 end
-scatter(NodeMatrix(1,1),NodeMatrix(1,2), 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',3);
-scatter(NodeMatrix(end,1),NodeMatrix(end,2), 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',3);
-
-
+legend
+%Scatter all the nodes as red dots
+scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'Node');
 if NoGoal==0
     %%change road to goal from blue mark to green mark
     p=Nodes+2;
     while p>1
         dxG= [NodeMatrix(p,1), NodeMatrix(NodeMatrix(p,3),1)];
         dyG= [NodeMatrix(p,2), NodeMatrix(NodeMatrix(p,3),2)];
-        plot(dxG, dyG, 'g', 'LineWidth',2);
+        plot(dxG, dyG, 'g', 'LineWidth',2, 'HandleVisibility','off');
         p=NodeMatrix(p,3);
     end
 end
+%Scatter the start
+scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Start');
+%Scatter the goal
+scatter(NodeMatrix(end,1),NodeMatrix(end,2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Goal');

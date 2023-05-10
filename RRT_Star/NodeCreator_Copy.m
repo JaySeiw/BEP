@@ -1,12 +1,12 @@
-function [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes)
+function [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal)
 % Assign random coordinates
 
 
 DiceThrow=100*rand;
 Percentage=1-(i/Nodes);
 if DiceThrow<Percentage%||i==1
-    randXNode=15+0.0001*rand;
-    randYNode=45+0.0001*rand;
+    randXNode=Goal(1,1)+0*rand;
+    randYNode=Goal(1,2)+0*rand;
 else
     randXNode=Xmax*rand;
     randYNode=Ymax*rand;

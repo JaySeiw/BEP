@@ -20,26 +20,26 @@ NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 node_count=1; %initialize node count to 1
 
-i=1;
-% While loop node creation
-while i<Nodes+1
-    intersection=0;
-    %Function for creating new nodes, looks for parent with smallest cost towards start
-    [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes);
-    %function for checking if the node/ line from node to parent node intersects with any obstacle
-    [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges, NodeMatrix);
-    %add node to matrix if intersection==0
-    if intersection==0
-        %% check where to connect it to the node, connect to lowest cost around
 
+i=1;
+%% RRT Algorithm
+while i<Nodes+1
+    %Function for creating new nodes, looks for parent with smallest cost towards start
+    [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal);
+    %function for checking if the node/ line from node to parent node intersects with any obstacle
+    [Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height);
+    [Intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, Intersection, edges, NodeMatrix);
+    %add node to matrix if intersection==0
+    if Intersection==0
+        %% check where to connect it to the node, connect to lowest cost around
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent Cost];
         [NodeMatrix] = NodeRewire (NodeMatrix, Length,i); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
         node_count= node_count+1; %Increment node count
         i=i+1;
     end
-
 end
+%Lastly, add goal to the matrix
 NodeMatrix(end+1,:)=Goal;
 
 

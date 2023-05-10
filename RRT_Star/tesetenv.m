@@ -1,3 +1,9 @@
+%rng shuffle
+%seed_obj = rng;
+%seed = seed_obj.Seed;
+%seed
+% insert seed below and comment out above to fix seed
+rng(635208054);
 %Rectangle matrix where columns are: index, x, y, w, h
 %% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
@@ -51,13 +57,12 @@ narrowgap=[1,12,41,2,7;
              8,25,2,12,3;
              9,0,18.5,20,7];
 %% Input values
-
-start = [4, 5, 0, 0];
+start = [26, 26, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 1000;
+nodes = 20;
 num_runs = 1; %the number of times to run each scenario
-environment=Ustart;
+environment=protruding;
 
 results = cell(num_runs, 3);
 for i = 1:num_runs

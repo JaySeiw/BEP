@@ -51,28 +51,28 @@ narrowgap=[1,12,41,2,7;
              8,25,2,12,3;
              9,0,18.5,20,7];
 
-% 
-% start = [4, 5, 0];
-% goal = [16, 45, 0];
-% length = 3;
-% nodes = 5000;
-% num_runs = 10; %the number of times to run each scenario
-% environment=Ustart;
+
+start = [4, 5, 0, 0];
+goal = [16, 45, 0, 0];
+length = 3;
+nodes = 2000;
+num_runs = 3; %the number of times to run each scenario
+environment=Ustart;
 
 
-% results = cell(10, 3);
-% for i = 1:10
-%     [node_count, no_of_nodes_path, len_path] = RRTfunction(environment, start, goal, length, nodes);
-%     results{i} = [node_count, no_of_nodes_path, len_path];
-% end
+results = cell(num_runs, 3);
+for i = 1:num_runs
+    [node_count, no_of_nodes_path, len_path] = RRT_star_function(environment, start, goal, length, nodes);
+    results{i} = [node_count, no_of_nodes_path, len_path];
+end
 
-% scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
-% 
+%scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
+
 % for i = 1:length(scenarios) % loop through each environment
 %     [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
 %     for j = 1:num_runs % loop through each run
 %         % call the RRT function here and save the results
-%         [node_count, no_of_nodes_path, len_path] = RRTfunction(scenarios{i},start,goal,length,nodes);
+%         [node_count, no_of_nodes_path, len_path] = RRT_star_function(scenarios{i},start,goal,length,nodes);
 %         save(sprintf('results_env%d_run%d.mat', i, j), 'results');
 %     end
 % end

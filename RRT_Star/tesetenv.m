@@ -60,19 +60,30 @@ num_runs = 3; %the number of times to run each scenario
 environment=Ustart;
 
 
-results = cell(num_runs, 3);
-for i = 1:num_runs
-    [node_count, no_of_nodes_path, len_path] = RRT_star_function(environment, start, goal, length, nodes);
-    results{i} = [node_count, no_of_nodes_path, len_path];
+start = [4, 5, 0];
+goal = [16, 45, 0];
+length = 3;
+nodes = 3000;
+num_runs = 10; %the number of times to run each scenario
+
+scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
+
+% Initialize a structure variable to hold the results
+results = struct();
+
+for i = 1:5 % loop through each environment
+    [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
+    
+    for j = 1:num_runs % loop through each run
+        % call the RRT function here and save the results
+        [node_count, no_of_nodes_path, len_path] = RRT_star_function(scenarios{i},start,goal,length,nodes);
+        
+        % Add the results to the structure variable
+        results(i,j).node_count = node_count;
+        results(i,j).no_of_nodes_path = no_of_nodes_path;
+        results(i,j).len_path = len_path;
+    end
+    
+    % Save the structure variable to a file
+    save(sprintf('rrt_star_results_env%d.mat', i), 'results');
 end
-
-%scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
-
-% for i = 1:length(scenarios) % loop through each environment
-%     [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
-%     for j = 1:num_runs % loop through each run
-%         % call the RRT function here and save the results
-%         [node_count, no_of_nodes_path, len_path] = RRT_star_function(scenarios{i},start,goal,length,nodes);
-%         save(sprintf('results_env%d_run%d.mat', i, j), 'results');
-%     end
-% end

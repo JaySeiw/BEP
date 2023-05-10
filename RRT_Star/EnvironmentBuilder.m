@@ -24,14 +24,14 @@ ObstacleMatrix = [RectangleMatrix(:,2:3), RectangleMatrix(:,2:3) + RectangleMatr
         edges((i-1)*4+4,:) = [x1,y1+h,x1+w,y1+h]; % top edge
     end
 
+% commented out, as only for checking if obstacles are drawn correctly
+%figure;
+%hold on;
 
-figure;
-hold on;
-
-for i = 1:size(RectangleMatrix, 1)
-    rectangle('Position', RectangleMatrix(i, 2:5), 'FaceColor', 'k');
-end
-xlim([0,50])
-ylim([0,50])
+%for i = 1:size(RectangleMatrix, 1)
+%    rectangle('Position', RectangleMatrix(i, 2:5), 'FaceColor', 'k');
+%end
+%xlim([0,50])
+%ylim([0,50])
 
 end

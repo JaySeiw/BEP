@@ -1,4 +1,4 @@
-function [Xnew, Ynew, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal)
+function [Xnew, Ynew, Parentfinal, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal)
 % Assign random coordinates
 
 
@@ -84,5 +84,6 @@ else
     Cost=NodeMatrix(ClosestPoint,4) + Length;
 end
 %we are left with a point, its parent node and a length matrix
+Parentfinal=Parent
 Xnew=randXNode;
 Ynew=randYNode;

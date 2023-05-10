@@ -64,20 +64,18 @@ nodes = 20;
 num_runs = 1; %the number of times to run each scenario
 environment=protruding;
 
-<<<<<<< HEAD
 
-start = [4, 5, 0];
-goal = [16, 45, 0];
-length = 3;
-nodes = 3000;
-num_runs = 10; %the number of times to run each scenario
-=======
+%start = [4, 5, 0];
+%goal = [16, 45, 0];
+%length = 3;
+%nodes = 3000;
+%num_runs = 10; %the number of times to run each scenario
+
 results = cell(num_runs, 3);
 for i = 1:num_runs
     [node_count, no_of_nodes_path, len_path] = RRT_star_function(environment, start, goal, length, nodes);
     results{i} = [node_count, no_of_nodes_path, len_path];
 end
->>>>>>> 540a9e5ec649e2cf1f0cc3ad8c07820e74dc9de4
 
 scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
 

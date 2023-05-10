@@ -72,11 +72,11 @@ if ~isempty(NodeLengthMatrix)
     %check if there is a 
     if ~isempty(row)
         Parent=NodeLengthMatrix(row,1);
-        Cost=NodeLengthMatrix(row,3);% + NodeLengthMatrix(row,3);
+        Cost=NodeLengthMatrix(row,3);
     %otherwise the parent will be the closest point, that we have steered towards and the cost will be its total cost+ the length, because that is what we made the length to be
     elseif NodeLengthMatrix(1,3)==0
         Parent=NodeLengthMatrix(1,1);
-        Cost=NodeLengthMatrix(1,3);% + NodeLengthMatrix(1,3);
+        Cost=NodeLengthMatrix(1,3);
     end
 %otherwise the parent will be the closest point, that we have steered towards and the cost will be its total cost+ the length, because that is what we made the length to be
 else

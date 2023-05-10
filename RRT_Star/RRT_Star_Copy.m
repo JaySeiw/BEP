@@ -45,7 +45,7 @@ i=1;
 %% RRT Algorithm
 while i<Nodes+1
     %Function for creating new nodes, looks for parent with smallest cost towards start
-    [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal);
+    [Xnew, Ynew, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
     [Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height);
     [Intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, Intersection, edges, NodeMatrix);

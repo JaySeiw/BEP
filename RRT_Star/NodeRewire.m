@@ -38,31 +38,28 @@ NodeLengthMatrix( all(~NodeLengthMatrix,2),:)=[];
 
 
 
-%% Check if there are any nodes left and then check if Cost node + length to nearest neighbour < cost nearest neighbour
+%% Check if there are any nodes left and then check if Cost of new node + length to nearest neighbour < cost nearest neighbour
 if ~isempty(NodeLengthMatrix)
     %Determine new cost to node(s)
-    NC=NodeMatrix(i,4)+NodeLengthMatrix(:,2);
+    NewCost=NodeMatrix(i,4)+NodeLengthMatrix(:,2);
     %cost of node that node(s) will be connected to
-    cost=NodeMatrix(i,4);
+    Cost=NodeMatrix(i,4);
     %find row(s) in Nodelengthmatrix where the if statement mentioned above is true
-    row=find(NC<NodeLengthMatrix(:,3));
-    if ~isempty(row)
+    Row=find(NewCost<NodeLengthMatrix(:,3));
+    if ~isempty(Row)
         %change parent of selected node(s) to the node in the i-th row
-        NodeMatrix(NodeLengthMatrix(row,1),3)=i;
+        NodeMatrix(NodeLengthMatrix(Row,1),3)=i;
         %change cost of selected node to cost of i-th row node + length to node in i-th row; this could be done for multiple nodes at once
-        NodeMatrix(NodeLengthMatrix(row,1),4)=cost+NodeLengthMatrix(row,2);
+        NodeMatrix(NodeLengthMatrix(Row,1),4)=Cost+NodeLengthMatrix(Row,2);
         %% Update children's cost by finding all changed nodes, calculating deltaC per node and applying that to the children's cost
         %do this for all nodes in row
-        for d=1:height(row)
+        for d=1:height(Row)
             %deltaC is difference between old cost of changed node and the new cost; should be singular value and should always negative
-            deltaC=(cost+NodeLengthMatrix(row(d),2))-NodeLengthMatrix(row(d),3);
-            if deltaC>0
-                disp('error');%temporary error message for easy look-up in command window
-            end
+            DeltaC=(Cost+NodeLengthMatrix(Row(d),2))-NodeLengthMatrix(Row(d),3);
             %find the children of the changed node; could be multiple children
-            children=find(NodeMatrix(:,3)==NodeLengthMatrix(row(d),1));
+            children=find(NodeMatrix(:,3)==NodeLengthMatrix(Row(d),1));
             % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
-            NodeMatrix(children,4)=NodeMatrix(children,4)+deltaC;
+            NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
             %% Possibly rewire parent of all children affected to a smallest cost node?
         end
     end

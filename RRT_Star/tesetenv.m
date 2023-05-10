@@ -1,5 +1,5 @@
 %Rectangle matrix where columns are: index, x, y, w, h
-%%Scenario with a U-shaped obstacle around the start
+%% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
          2,1,8,7,2;
          3,6,3,2,7;
@@ -50,21 +50,29 @@ narrowgap=[1,12,41,2,7;
              7,14,6,3,12;
              8,25,2,12,3;
              9,0,18.5,20,7];
-
+%% Input values
 
 start = [4, 5, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 2000;
-num_runs = 3; %the number of times to run each scenario
+nodes = 1000;
+num_runs = 1; %the number of times to run each scenario
 environment=Ustart;
 
+<<<<<<< HEAD
 
 start = [4, 5, 0];
 goal = [16, 45, 0];
 length = 3;
 nodes = 3000;
 num_runs = 10; %the number of times to run each scenario
+=======
+results = cell(num_runs, 3);
+for i = 1:num_runs
+    [node_count, no_of_nodes_path, len_path] = RRT_star_function(environment, start, goal, length, nodes);
+    results{i} = [node_count, no_of_nodes_path, len_path];
+end
+>>>>>>> 540a9e5ec649e2cf1f0cc3ad8c07820e74dc9de4
 
 scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
 

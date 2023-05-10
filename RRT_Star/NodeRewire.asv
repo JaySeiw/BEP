@@ -51,12 +51,10 @@ if ~isempty(NodeLengthMatrix)
         %Do this for every child that has been selected in row
         for c=1:height(Index)
         Intersection=0;
-        %Inputs are: x,y-coordinate from child node of row c of Index, node i, intersection (standard 0), edges, NodeMatrix
-        Par=i;
-        [Intersection] = ThroughObstacleDetect(NodeMatrix(NodeLengthMatrix(Index(c),1),1), NodeMatrix(NodeLengthMatrix(Index(c),2),2), Par, Intersection, edges, NodeMatrix);
-         When Intersecction==1 we want to remove this from Index
+        %Inputs are: x,y-coordinate from child node of row c of Index, node i, intersection i
+        [Intersection] = ThroughObstacleDetect(NodeMatrix(NodeLengthMatrix(Index(c),1),1), NodeMatrix(NodeLengthMatrix(Index(c),2),2), i, Intersection, edges, NodeMatrix);
         if Intersection==1
-            Index(c)=[];
+            NodeLengthMatrix
         end
         end
         %change parent of selected node(s) to the node in the i-th row
@@ -77,3 +75,5 @@ if ~isempty(NodeLengthMatrix)
     end
 end
 
+
+end

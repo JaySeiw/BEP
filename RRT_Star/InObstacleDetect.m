@@ -15,6 +15,5 @@ while k<Height+1
         Intersection=1;
     else
         k=k+1;
-
     end
 end

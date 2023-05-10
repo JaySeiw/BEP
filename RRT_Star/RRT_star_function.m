@@ -34,7 +34,7 @@ while i<Nodes+1
         %% check where to connect it to the node, connect to lowest cost around
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent Cost];
-        [NodeMatrix] = NodeRewire (NodeMatrix, Length,i); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
+        %[NodeMatrix] = NodeRewire (NodeMatrix, Length,i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
         node_count= node_count+1; %Increment node count
         i=i+1;
     end

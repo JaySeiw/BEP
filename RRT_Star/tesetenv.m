@@ -55,7 +55,7 @@ narrowgap=[1,12,41,2,7;
 start = [4, 5, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 2000;
+nodes = 1000;
 num_runs = 1; %the number of times to run each scenario
 environment=Ustart;
 

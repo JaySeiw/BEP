@@ -49,30 +49,41 @@ if ~isempty(NodeLengthMatrix)
     if ~isempty(Index)
         %% Check if node i (parent) and new child(ren) cross an obstacle, if so, remove them from NodeLengthMatrix
         %Do this for every child that has been selected in row
+
+        IndexDelete=zeros(1,1);
         for c=1:height(Index)
-        Intersection=0;
-        %Inputs are: x,y-coordinate from child node of row c of Index, node i, intersection (standard 0), edges, NodeMatrix
-        Par=i;
-        [Intersection] = ThroughObstacleDetect(NodeMatrix(NodeLengthMatrix(Index(c),1),1), NodeMatrix(NodeLengthMatrix(Index(c),2),2), Par, Intersection, edges, NodeMatrix);
-         When Intersecction==1 we want to remove this from Index
-        if Intersection==1
-            Index(c)=[];
+            Intersection=0;
+            %Inputs are: x,y-coordinate from child node of row c of Index, node i, intersection (standard 0), edges, NodeMatrix
+            [Intersection] = ThroughObstacleDetect(NodeMatrix(NodeLengthMatrix(Index(c),1),1), NodeMatrix(NodeLengthMatrix(Index(c),1),2), i, Intersection, edges, NodeMatrix);
+            % When Intersecction==1 we want to remove this from Index
+            if Intersection==1
+                Index
+                %Index(c,:)=[];
+                IndexDelete(end+1)=c;
+            end
         end
+        if IndexDelete~=0
+            IndexDelete
+            Index([IndexDelete],:)=[];
+            Index
         end
-        %change parent of selected node(s) to the node in the i-th row
-        NodeMatrix(NodeLengthMatrix(Index,1),3)=i;
-        %change cost of selected node to cost of i-th row node + length to node in i-th row; this could be done for multiple nodes at once
-        NodeMatrix(NodeLengthMatrix(Index,1),4)=Cost+NodeLengthMatrix(Index,2);
-        %% Update children's cost by finding all changed nodes, calculating deltaC per node and applying that to the children's cost
-        %do this for all nodes in row
-        for d=1:height(Index)
-            %deltaC is difference between old cost of changed node and the new cost; should be singular value and should always negative
-            DeltaC=(Cost+NodeLengthMatrix(Index(d),2))-NodeLengthMatrix(Index(d),3);
-            %find the children of the changed node; could be multiple children
-            children=find(NodeMatrix(:,3)==NodeLengthMatrix(Index(d),1));
-            % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
-            NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
-            %% Possibly rewire parent of all children affected to a smallest cost node?
+        if ~isempty(Index)
+            %change parent of selected node(s) to the node in the i-th row
+            NodeMatrix(NodeLengthMatrix(Index,1),3)=i;
+            %change cost of selected node to cost of i-th row node + length to node in i-th row; this could be done for multiple nodes at once
+            NodeMatrix(NodeLengthMatrix(Index,1),4)=Cost+NodeLengthMatrix(Index,2);
+            %% Update children's cost by finding all changed nodes, calculating deltaC per node and applying that to the children's cost
+            %do this for all nodes in row
+            for d=1:height(Index)
+                %deltaC is difference between old cost of changed node and the new cost; should be singular value and should always negative
+                DeltaC=(Cost+NodeLengthMatrix(Index(d),2))-NodeLengthMatrix(Index(d),3);
+                %find the children of the changed node; could be multiple children
+                children=find(NodeMatrix(:,3)==NodeLengthMatrix(Index(d),1));
+                % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
+                %% find children of children
+                NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
+                %% Possibly rewire parent of all children affected to a smallest cost node?
+            end
         end
     end
 end

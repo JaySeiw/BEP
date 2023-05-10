@@ -1,3 +1,9 @@
+%rng shuffle
+%seed_obj = rng;
+%seed = seed_obj.Seed;
+%seed
+% insert seed below and comment out above to fix seed
+rng(635208054);
 %Rectangle matrix where columns are: index, x, y, w, h
 %% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
@@ -51,13 +57,19 @@ narrowgap=[1,12,41,2,7;
              8,25,2,12,3;
              9,0,18.5,20,7];
 %% Input values
-
-start = [4, 5, 0, 0];
+start = [26, 26, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 1000;
+nodes = 20;
 num_runs = 1; %the number of times to run each scenario
-environment=Ustart;
+environment=protruding;
+
+
+%start = [4, 5, 0];
+%goal = [16, 45, 0];
+%length = 3;
+%nodes = 3000;
+%num_runs = 10; %the number of times to run each scenario
 
 results = cell(num_runs, 3);
 for i = 1:num_runs
@@ -65,13 +77,24 @@ for i = 1:num_runs
     results{i} = [node_count, no_of_nodes_path, len_path];
 end
 
-%scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
+scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
 
-% for i = 1:length(scenarios) % loop through each environment
-%     [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
-%     for j = 1:num_runs % loop through each run
-%         % call the RRT function here and save the results
-%         [node_count, no_of_nodes_path, len_path] = RRT_star_function(scenarios{i},start,goal,length,nodes);
-%         save(sprintf('results_env%d_run%d.mat', i, j), 'results');
-%     end
-% end
+% Initialize a structure variable to hold the results
+results = struct();
+
+for i = 1:5 % loop through each environment
+    [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
+    
+    for j = 1:num_runs % loop through each run
+        % call the RRT function here and save the results
+        [node_count, no_of_nodes_path, len_path] = RRT_star_function(scenarios{i},start,goal,length,nodes);
+        
+        % Add the results to the structure variable
+        results(i,j).node_count = node_count;
+        results(i,j).no_of_nodes_path = no_of_nodes_path;
+        results(i,j).len_path = len_path;
+    end
+    
+    % Save the structure variable to a file
+    save(sprintf('rrt_star_results_env%d.mat', i), 'results');
+end

@@ -1,5 +1,5 @@
-function[intersection] = InObstacleDetect(ObstacleMatrix, Height)
-
+function[Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height)
+Intersection=0;
 %% Point in obstacle part
 % set k to 1 as counter of rows starting at the first row
 k=1;
@@ -12,8 +12,9 @@ while k<Height+1
         % Set counter to break the while loop, because an intersection has been found
         k=Height+1;
         % If node is not in obstacle continue to next row
-        intersection=1;
+        Intersection=1;
     else
         k=k+1;
+
     end
 end

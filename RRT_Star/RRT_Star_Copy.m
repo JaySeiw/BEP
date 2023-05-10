@@ -43,14 +43,13 @@ Goal=[16,45,0,0];
 i=1;
 %% RRT Algorithm
 while i<Nodes+1
-    intersection=0;
     %Function for creating new nodes, looks for parent with smallest cost towards start
     [Xnew, Ynew, LengthMatrix, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal);
     %function for checking if the node/ line from node to parent node intersects with any obstacle
-    [intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height);
-    [intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, intersection, edges, NodeMatrix);
+    [Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height);
+    [Intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, Intersection, edges, NodeMatrix);
     %add node to matrix if intersection==0
-    if intersection==0
+    if Intersection==0
         %% check where to connect it to the node, connect to lowest cost around
         %go to the end of NodeMatrix and add a new row where the new values are inserted
         NodeMatrix(end+1,:)=[Xnew Ynew Parent Cost];

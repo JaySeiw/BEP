@@ -1,7 +1,7 @@
-function [intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, intersection, edges, NodeMatrix)
+function [Intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, Intersection, edges, NodeMatrix)
 %% Vertice through obstacle part
 % If marker has not yet been set to 1, then we will check for crossing of vertice through edges
-if intersection~=1
+if Intersection~=1
     i=1;
     %count up until last row of edges
     while i < size(edges,1)+1
@@ -10,11 +10,11 @@ if intersection~=1
         Test=[xi, yi];
         % If there is an intersection point, the line is invalid
         if isempty(Test)
-            intersection=0;
+            Intersection=0;
             i=i+1;
         else
             i=size(edges,1)+1;
-            intersection=1;
+            Intersection=1;
         end
     end
 end

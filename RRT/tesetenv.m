@@ -57,14 +57,22 @@ narrowgap=[1,12,41,2,7;
 % length = 3;
 % nodes = 5000;
 % num_runs = 10; %the number of times to run each scenario
-% scenario=Ustart;
-
-% Loop over each run for the current scenario
-% for j = 1:num_runs
-%     % Call the RRT function with the current scenario, start and goal positions, and other inputs
-%     [node_count, no_of_nodes_path, len_path] = RRTfunction(scenario, start, goal, length, nodes);
+% environment=Ustart;
 % 
-%     % Save the results in a .mat file with a unique name for each scenario and run
-%     filename = sprintf('results_%s_run%d.mat', scenario, j);
-%     save(filename, 'node_count', 'no_of_nodes_path',"len_path");
+% 
+% results = cell(10, 3);
+% for i = 1:10
+%     [node_count, no_of_nodes_path, len_path] = RRTfunction(environment, start, goal, length, nodes);
+%     results{i} = [node_count, no_of_nodes_path, len_path];
+% end
+
+% scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
+% 
+% for i = 1:length(scenarios) % loop through each environment
+%     [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
+%     for j = 1:num_runs % loop through each run
+%         % call the RRT function here and save the results
+%         [node_count, no_of_nodes_path, len_path] = RRTfunction(scenarios{i},start,goal,length,nodes);
+%         save(sprintf('results_env%d_run%d.mat', i, j), 'results');
+%     end
 % end

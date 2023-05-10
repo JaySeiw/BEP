@@ -1,3 +1,4 @@
+
 %function [outputs] = name(inputs); i am just a sample
 close all hidden;
 rng shuffle

@@ -51,32 +51,28 @@ narrowgap=[1,12,41,2,7;
              8,25,2,12,3;
              9,0,18.5,20,7];
 
-% Define the scenarios
-scenarios= [Ustart,Ugoal,protruding,bigobstacle,narrowgap];
+% 
+% start = [4, 5, 0];
+% goal = [16, 45, 0];
+% length = 3;
+% nodes = 5000;
+% num_runs = 10; %the number of times to run each scenario
+% environment=Ustart;
 
-% Define the start and goal positions for the RRT algorithm
-start = [4, 5, 0];
-goal = [16, 45, 0];
 
-% Define the number of iterations and maximum number of nodes for the RRT algorithm
-length = 3;
-Nodes = 5000;
+% results = cell(10, 3);
+% for i = 1:10
+%     [node_count, no_of_nodes_path, len_path] = RRTfunction(environment, start, goal, length, nodes);
+%     results{i} = [node_count, no_of_nodes_path, len_path];
+% end
 
-% Define the number of times to run each scenario
-num_runs = 10;
-
-% Loop over each scenario and run the RRT algorithm
-for i = 1:length(scenarios)
-    % Get the name of the current scenario
-    scenario = scenarios(i);
-    
-    % Loop over each run for the current scenario
-    for j = 1:num_runs
-        % Call the RRT function with the current scenario, start and goal positions, and other inputs
-        [path, tree] = RRTfunction(scenario, start, goal, length, nodes);
-        
-        % Save the results in a .mat file with a unique name for each scenario and run
-        filename = sprintf('results_%s_run%d.mat', scenario, j);
-        save(filename, 'path', 'tree');
-    end
-end
+% scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;
+% 
+% for i = 1:length(scenarios) % loop through each environment
+%     [rows, ~] = size(scenarios{i}); % get the number of rows in the current environment
+%     for j = 1:num_runs % loop through each run
+%         % call the RRT function here and save the results
+%         [node_count, no_of_nodes_path, len_path] = RRTfunction(scenarios{i},start,goal,length,nodes);
+%         save(sprintf('results_env%d_run%d.mat', i, j), 'results');
+%     end
+% end

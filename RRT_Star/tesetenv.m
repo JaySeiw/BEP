@@ -3,7 +3,7 @@
 %seed = seed_obj.Seed;
 %seed
 % insert seed below and comment out above to fix seed
-rng(635208054);
+%rng(635208054);
 %Rectangle matrix where columns are: index, x, y, w, h
 %% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
@@ -60,7 +60,7 @@ narrowgap=[1,12,41,2,7;
 start = [26, 26, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 20;
+nodes = 2000;
 num_runs = 1; %the number of times to run each scenario
 environment=protruding;
 

@@ -13,19 +13,15 @@ else
     randYNode=Ymax*rand;
 end
 
-randXNode
-randYNode
 
 %% Locating nearest point
 %make matrix where [x1-xi y1-yi] with i rows because we are not intereste in points of zero starting with starting point
-DistanceMatrix=[randXNode randYNode]-NodeMatrix([1 i-1],[1 2]);
+DistanceMatrix=[randXNode randYNode]-NodeMatrix(1:i,[1 2]);
 %calculate length from new point to all points
 LengthMatrix=[sqrt(DistanceMatrix(:,1).^2+DistanceMatrix(:,2).^2)];
-
 %find smallest length to point
 ClosestPoint=find(LengthMatrix==min(LengthMatrix));
-%disp('long');
-ClosestPoint
+
 
 %% Steering-part
 if LengthMatrix(ClosestPoint)>Length
@@ -38,8 +34,6 @@ end
 
 
 %% Assign parent with lowest cost-part
-randXNode
-randYNode
 % Select node within interval of +- Length and select node with smallest cost
 NRx=discretize(NodeMatrix(1:i,1),[randXNode-Length, randXNode+Length]);
 NRy=discretize(NodeMatrix(1:i,2),[randYNode-Length, randYNode+Length]);
@@ -71,7 +65,7 @@ NodeLengthMatrix( all(~NodeLengthMatrix,2),:)=[];
 %check if there are any nodes in the matrix
 if ~isempty(NodeLengthMatrix)
     %find the row where the cost is smallest
-    [val, row]=min(NodeLengthMatrix(:,3));
+    [~, row]=min(NodeLengthMatrix(:,3));
     %check if there is a 
     if ~isempty(row)
         Parent=NodeLengthMatrix(row,1);
@@ -86,6 +80,8 @@ else
     Parent=ClosestPoint;
     Cost=NodeMatrix(ClosestPoint,4) + Length;
 end
-%we are left with a point, its parent node and a length matrix
+
+
+%% we are left with a point, its parent node and a length matrix
 Xnew=randXNode;
 Ynew=randYNode;

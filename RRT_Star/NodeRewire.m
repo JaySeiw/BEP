@@ -79,6 +79,9 @@ if ~isempty(NodeLengthMatrix)
                 DeltaC=(Cost+NodeLengthMatrix(Index(d),2))-NodeLengthMatrix(Index(d),3);
                 %find the children of the changed node; could be multiple children
                 children=find(NodeMatrix(:,3)==NodeLengthMatrix(Index(d),1));
+                %find children of children 
+                CC=find(NodeMatrix(:,3)==children);
+                %CC
                 % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
                 %% find children of children
                 NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;

@@ -35,13 +35,11 @@ while i<Nodes+1
         i=i+1;
     end
 end
-%Lastly, add goal to the matrix
-NodeMatrix(end+1,:)=Goal;
 
 
 
 %% Find parent for the goal node
-[a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
+[a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, GoalMatrix, Length );
 
 
 %% Drawing part

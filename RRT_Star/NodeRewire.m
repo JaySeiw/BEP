@@ -9,7 +9,6 @@ function [NodeMatrix] = NodeRewire(NodeMatrix, Length,i, edges)
 % look for node with lowest cost (total path length)*
 
 
-%% Select Node in row A where row 2 is node 2 and row Nodes+1 is the last of the assigned nodes
 %% we make a cube with a distance of 3 units around the node, from here we discretize points
 NRx=discretize(NodeMatrix(1:end,1),[NodeMatrix(i,1)-Length, NodeMatrix(i,1)+Length]);
 NRy=discretize(NodeMatrix(1:end,2),[NodeMatrix(i,2)-Length, NodeMatrix(i,2)+Length]);
@@ -34,6 +33,7 @@ for b=1:height(Nodex)
         NodeLengthMatrix(b,:)=[Nodex(b), L , NodeMatrix(Nodex(b),4)];
     end
 end
+%remove empty entries
 NodeLengthMatrix( all(~NodeLengthMatrix,2),:)=[];
 
 
@@ -49,30 +49,65 @@ if ~isempty(NodeLengthMatrix)
     if ~isempty(Index)
         %% Check if node i (parent) and new child(ren) cross an obstacle, if so, remove them from NodeLengthMatrix
         %Do this for every child that has been selected in row
+        IndexDelete=zeros(height(Index),1);
         for c=1:height(Index)
-        Intersection=0;
-        %Inputs are: x,y-coordinate from child node of row c of Index, node i, intersection (standard 0), edges, NodeMatrix
-        Par=i;
-        [Intersection] = ThroughObstacleDetect(NodeMatrix(NodeLengthMatrix(Index(c),1),1), NodeMatrix(NodeLengthMatrix(Index(c),2),2), Par, Intersection, edges, NodeMatrix);
-         When Intersecction==1 we want to remove this from Index
-        if Intersection==1
-            Index(c)=[];
+            %Inputs are: x,y-coordinate from child node of row c of Index, node i, intersection (standard 0), edges, NodeMatrix
+            [Intersection] = ThroughObstacleDetect(NodeMatrix(NodeLengthMatrix(Index(c),1),1), NodeMatrix(NodeLengthMatrix(Index(c),1),2), i, 0, edges, NodeMatrix);
+            % When Intersecction==1 we want to remove this from Index
+            if Intersection==1
+                IndexDelete(c,1)=c;
+            end
         end
+        IndexDelete( all(~IndexDelete,2),:)=[];
+        if ~isempty(IndexDelete)
+            Index([IndexDelete],:)=[];
         end
-        %change parent of selected node(s) to the node in the i-th row
-        NodeMatrix(NodeLengthMatrix(Index,1),3)=i;
-        %change cost of selected node to cost of i-th row node + length to node in i-th row; this could be done for multiple nodes at once
-        NodeMatrix(NodeLengthMatrix(Index,1),4)=Cost+NodeLengthMatrix(Index,2);
-        %% Update children's cost by finding all changed nodes, calculating deltaC per node and applying that to the children's cost
-        %do this for all nodes in row
-        for d=1:height(Index)
-            %deltaC is difference between old cost of changed node and the new cost; should be singular value and should always negative
-            DeltaC=(Cost+NodeLengthMatrix(Index(d),2))-NodeLengthMatrix(Index(d),3);
-            %find the children of the changed node; could be multiple children
-            children=find(NodeMatrix(:,3)==NodeLengthMatrix(Index(d),1));
-            % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
-            NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
-            %% Possibly rewire parent of all children affected to a smallest cost node?
+        if ~isempty(Index)
+            %change parent of selected node(s) to the node in the i-th row
+            NodeMatrix(NodeLengthMatrix(Index,1),3)=i;
+            %change cost of selected node to cost of i-th row node + length to node in i-th row; this could be done for multiple nodes at once
+            NodeMatrix(NodeLengthMatrix(Index,1),4)=Cost+NodeLengthMatrix(Index,2);
+            %place CCU here
+            %% Update children's cost by finding all changed nodes, calculating deltaC per node and applying that to the children's cost
+            %do this for all nodes in row
+            for d=1:height(Index)
+                %deltaC is difference between old cost of changed node and the new cost; should be singular value and should always negative
+                DeltaC=(Cost+NodeLengthMatrix(Index(d),2))-NodeLengthMatrix(Index(d),3);
+                %find the children of the changed node; could be multiple children
+                children=find(NodeMatrix(:,3)==NodeLengthMatrix(Index(d),1));
+                %% find children of children
+                %if children are present, we can look for their children and add them to the children matrix
+                if ~isempty(children)
+                    %take height of children matrix
+                    f=1;
+                    e=0;
+                    while e==0
+                        %dr=children(f:end);
+                        %if there are children after the children we have already looked at, continue
+                        if ~isempty(children(f:end))
+                            f=height(children);
+                            %disp('CC')
+                            %find all children's children in the nodematrix that correspond to children matrix row f+1 until the end
+                            CC=find(NodeMatrix(:,3)==children(f:end));
+                            %if this is empty and there are no children left, we can break the while loop and stop searching
+                            if isempty(CC)
+                                e=1;
+                            end
+                            %add x-rows of CC to the children matrix
+                            vertcat(children,CC);
+                            %take height of CC and add to f
+                            f=f+height(CC);
+                        % if there are no children left, break the search too
+                        else
+                            %disp('no CC')
+                            e=1;
+                        end
+                    end
+                end
+                % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
+                NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
+                %% Possibly rewire parent of all children affected to a smallest cost node?
+            end
         end
     end
 end

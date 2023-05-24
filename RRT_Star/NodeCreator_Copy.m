@@ -1,4 +1,5 @@
 function [Xnew, Ynew, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal)
+
 % Assign random coordinates
 
 
@@ -13,16 +14,13 @@ else
 end
 
 
-
 %% Locating nearest point
 %make matrix where [x1-xi y1-yi] with i rows because we are not intereste in points of zero starting with starting point
-DistanceMatrix=[randXNode randYNode]-NodeMatrix(:,[1 2]);
+DistanceMatrix=[randXNode randYNode]-NodeMatrix(1:i,[1 2]);
 %calculate length from new point to all points
 LengthMatrix=[sqrt(DistanceMatrix(:,1).^2+DistanceMatrix(:,2).^2)];
-
 %find smallest length to point
 ClosestPoint=find(LengthMatrix==min(LengthMatrix));
-%disp('long');
 
 
 %% Steering-part
@@ -36,10 +34,9 @@ end
 
 
 %% Assign parent with lowest cost-part
-
 % Select node within interval of +- Length and select node with smallest cost
-NRx=discretize(NodeMatrix(1:end,1),[randXNode-Length, randXNode+Length]);
-NRy=discretize(NodeMatrix(1:end,2),[randYNode-Length, randYNode+Length]);
+NRx=discretize(NodeMatrix(1:i,1),[randXNode-Length, randXNode+Length]);
+NRy=discretize(NodeMatrix(1:i,2),[randYNode-Length, randYNode+Length]);
 %find the row(s) where a node is within the interval of the selected node
 FNx=find(~isnan(NRx));
 FNy=find(~isnan(NRy));
@@ -47,7 +44,7 @@ FNy=find(~isnan(NRy));
 Nodex=intersect(FNx, FNy);
 %Nodex
 %Make a matrix where we have nodes within range, their distance to the newly made node, and the cost to the newlt made node
-NodeLengthMatrix=zeros(1,3);
+NodeLengthMatrix=zeros(height(Nodex),3);
 
 
 %% Select row B of Nodex, where the original node number is known
@@ -57,7 +54,7 @@ for b=1:height(Nodex)
     L=sqrt( (NodeMatrix(Nodex(b),1)-randXNode)^2+(NodeMatrix(Nodex(b),2)-randYNode)^2 );
     %Only insert if length is actually <=Length, making this interval where max length could be sqrt(2)*Length (45deg angle with sides of 3)
     if L<=Length %%eventually shrink size when more nodes are added
-        NodeLengthMatrix(end+1,:)=[Nodex(b), L , NodeMatrix(Nodex(b),4)+L];
+        NodeLengthMatrix(b,:)=[Nodex(b), L , NodeMatrix(Nodex(b),4)+L];
     end
 end
 %Remove all rows with zeros
@@ -68,7 +65,7 @@ NodeLengthMatrix( all(~NodeLengthMatrix,2),:)=[];
 %check if there are any nodes in the matrix
 if ~isempty(NodeLengthMatrix)
     %find the row where the cost is smallest
-    [val, row]=min(NodeLengthMatrix(:,3));
+    [~, row]=min(NodeLengthMatrix(:,3));
     %check if there is a 
     if ~isempty(row)
         Parent=NodeLengthMatrix(row,1);
@@ -83,6 +80,8 @@ else
     Parent=ClosestPoint;
     Cost=NodeMatrix(ClosestPoint,4) + Length;
 end
-%we are left with a point, its parent node and a length matrix
+
+
+%% we are left with a point, its parent node and a length matrix
 Xnew=randXNode;
 Ynew=randYNode;

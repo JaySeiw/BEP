@@ -1,11 +1,7 @@
-function [node_count, no_of_nodes_path, len_path]=RRT_star_function(environment, Start, Goal, Length, Nodes)
-
-
+function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes)
+close all hidden
 %function [outputs] = name(inputs); i am just a sample
-close all hidden;
-rng shuffle
-seed_obj = rng;
-seed = seed_obj.Seed;
+
 %% Global variables:
 
 Xmax=50;
@@ -15,7 +11,7 @@ Ymax=50;
 
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 
-NodeMatrix=zeros(1,4);
+NodeMatrix=zeros(Nodes,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 node_count=1; %initialize node count to 1
@@ -33,8 +29,8 @@ while i<Nodes+1
     if Intersection==0
         %% check where to connect it to the node, connect to lowest cost around
         %go to the end of NodeMatrix and add a new row where the new values are inserted
-        NodeMatrix(end+1,:)=[Xnew Ynew Parent Cost];
-        %[NodeMatrix] = NodeRewire (NodeMatrix, Length,i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
+        NodeMatrix(i+1,:)=[Xnew Ynew Parent Cost];
+        [NodeMatrix] = NodeRewire (NodeMatrix, Length,i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
         node_count= node_count+1; %Increment node count
         i=i+1;
     end

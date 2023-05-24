@@ -56,7 +56,7 @@ start = [4, 5, 0];
 goal = [16, 45, 0];
 length = 3;
 nodes = 3000;
-num_runs = 10; %the number of times to run each scenario
+num_runs = 1; %the number of times to run each scenario
 
 
 scenarios={Ustart, Ugoal, protruding,bigobstacle,narrowgap} ;

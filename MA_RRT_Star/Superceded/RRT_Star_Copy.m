@@ -1,20 +1,44 @@
-function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes)
-close all hidden
-%function [outputs] = name(inputs); i am just a sample
 
+%function [outputs] = name(inputs); i am just a sample
+close all hidden;
+rng shuffle
+seed_obj = rng;
+seed = seed_obj.Seed;
 %% Global variables:
 
 Xmax=50;
 Ymax=50;
-
-[ObstacleMatrix, RectangleMatrix ,edges]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
-
+RectangleMatrix=readmatrix("RectangleMatrix.csv"); % Rectanglematrix with [i,x,y,w,h]
+ObstacleMatrix=readmatrix('ObstacleMap.csv'); % Map of obstacles with [x1,y1,x2,y2]
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
-
-NodeMatrix=zeros(Nodes,4);
+Length=3; % L max length for a node to be connected to an other
+Nodes=2000; %go crazy with the numbers!
+Start=[4,5,0,0]; %matrix of all the nodes created with x,y coordinates its closest parent and the cost (total path length to the start)
+NodeMatrix=zeros(1,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
-node_count=1; %initialize node count to 1
+% the edges part should be moved towards obstacle creator so an export of edges can be made. Not at the top of our list, but it slims down the main RRT code
+
+%edges of the obstacles will be put into a matrix, 4 lines per rectangle means 4 rows per object
+% edges: a matrix representing all the lines of the obstacles. (size N x 4 in the form N x [x1, y1, x2, y2])
+% first creating a matrix with all the edges of the obstacles in the form
+% (x1,y1,x2,y2) to use in the function
+% preallocate matrix to store edges (multiplied by 4 because each rectangle has 4 edges)
+edges = zeros(size(RectangleMatrix,1)*4,4);
+for i = 1:size(RectangleMatrix,1)
+    x1 = RectangleMatrix(i,2); % x coordinate of bottom left corner
+    y1 = RectangleMatrix(i,3); % y coordinate of bottom left corner
+    w = RectangleMatrix(i,4); % width of rectangle
+    h = RectangleMatrix(i,5); % height of rectangle
+    % Extract edges and store in edges matrix
+    edges((i-1)*4+1,:) = [x1,y1,x1+w,y1]; % bottom edge
+    edges((i-1)*4+2,:) = [x1,y1,x1,y1+h]; % left edge
+    edges((i-1)*4+3,:) = [x1+w,y1,x1+w,y1+h]; % right edge
+    edges((i-1)*4+4,:) = [x1,y1+h,x1+w,y1+h]; % top edge
+end
+
+% Goal node
+Goal=[16,45,0,0];
 
 
 i=1;
@@ -29,9 +53,8 @@ while i<Nodes+1
     if Intersection==0
         %% check where to connect it to the node, connect to lowest cost around
         %go to the end of NodeMatrix and add a new row where the new values are inserted
-        NodeMatrix(i+1,:)=[Xnew Ynew Parent Cost];
-        [NodeMatrix] = NodeRewire (NodeMatrix, Length,i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
-        node_count= node_count+1; %Increment node count
+        NodeMatrix(end+1,:)=[Xnew Ynew Parent Cost];
+        [NodeMatrix] = NodeRewire (NodeMatrix, Length,i); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
         i=i+1;
     end
 end
@@ -39,12 +62,12 @@ end
 NodeMatrix(end+1,:)=Goal;
 
 
-
 %% Find parent for the goal node
 [a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
 
 
 %% Drawing part
+
 % Hi, I have enlarged the size of the figure down here starting from 'units'
 figure ('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]);
 %hold on so that all further drawings are stacked on top of eachother
@@ -73,16 +96,10 @@ scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'No
 if NoGoal==0
     %%change road to goal from blue mark to green mark
     p=Nodes+2;
-    no_of_nodes_path=0; %initialise counter variable
-    len_path=0; %initialise length variable
     while p>1
         dxG= [NodeMatrix(p,1), NodeMatrix(NodeMatrix(p,3),1)];
         dyG= [NodeMatrix(p,2), NodeMatrix(NodeMatrix(p,3),2)];
         plot(dxG, dyG, 'g', 'LineWidth',2, 'HandleVisibility','off');
-        % increment the counter variable by 1 for each node in the line
-        no_of_nodes_path = no_of_nodes_path + 1; 
-        % calculate the distance between the current node and the next node
-        len_path = len_path + sqrt((dxG(2)-dxG(1))^2 + (dyG(2)-dyG(1))^2);
         p=NodeMatrix(p,3);
     end
 end

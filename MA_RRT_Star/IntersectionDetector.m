@@ -1,6 +1,4 @@
-function [intersection, Test] = Copy_of_IntersectionDetector(Xnew, Ynew, Parent, ObstacleMap, edges, Height, intersection, NodeMatrix)
-
-
+function [intersection] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMatrix, Height, intersection, edges, NodeMatrix)
 
 %% Point in obstacle part
 % set k to 1 as counter of rows starting at the first row
@@ -8,8 +6,8 @@ k=1;
 %going through obstacles within row k
 while k<Height+1
     % Check if node is within obstacle
-    Xi=discretize(Xnew,[ObstacleMap(k,1),ObstacleMap(k,3)])==1;
-    Yi=discretize(Ynew,[ObstacleMap(k,2),ObstacleMap(k,4)])==1;
+    Xi=discretize(Xnew,[ObstacleMatrix(k,1),ObstacleMatrix(k,3)])==1;
+    Yi=discretize(Ynew,[ObstacleMatrix(k,2),ObstacleMatrix(k,4)])==1;
     if Xi&&Yi==1
         % Set counter to break the while loop, because an intersection has been found
         k=Height+1;

@@ -1,10 +1,10 @@
-function [ObstacleMap, RectangleMatrix ,edges]= EnvironmentBuilder(scenario)
+function [ObstacleMatrix, RectangleMatrix ,edges]= EnvironmentBuilder(scenario)
 close all hidden;
 %start=4,5
 %goal=16,45
 RectangleMatrix=scenario;
 %map of obstacles with [x1,y1,x2,y2]
-ObstacleMap = [RectangleMatrix(:,2:3), RectangleMatrix(:,2:3) + RectangleMatrix(:,4:5)];
+ObstacleMatrix = [RectangleMatrix(:,2:3), RectangleMatrix(:,2:3) + RectangleMatrix(:,4:5)];
 
 %global edges; %edges of the obstacles will be put into a matrix, 4 lines per rectangle means 4 rows per object
 % edges: a matrix representing all the lines of the obstacles. (size N x 4 in the form N x [x1, y1, x2, y2])
@@ -24,7 +24,7 @@ ObstacleMap = [RectangleMatrix(:,2:3), RectangleMatrix(:,2:3) + RectangleMatrix(
         edges((i-1)*4+4,:) = [x1,y1+h,x1+w,y1+h]; % top edge
     end
 
-
+% commented out, as only for checking if obstacles are drawn correctly
 %figure;
 %hold on;
 

@@ -25,13 +25,13 @@ ObstacleMap = [RectangleMatrix(:,2:3), RectangleMatrix(:,2:3) + RectangleMatrix(
     end
 
 
-figure;
-hold on;
-
-for i = 1:size(RectangleMatrix, 1)
-    rectangle('Position', RectangleMatrix(i, 2:5), 'FaceColor', 'k');
-end
-xlim([0,50])
-ylim([0,50])
+% figure;
+% hold on;
+% 
+% for i = 1:size(RectangleMatrix, 1)
+%     rectangle('Position', RectangleMatrix(i, 2:5), 'FaceColor', 'k');
+% end
+% xlim([0,50])
+% ylim([0,50])
 
 end

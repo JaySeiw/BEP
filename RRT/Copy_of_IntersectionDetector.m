@@ -1,4 +1,4 @@
-function [intersection, Test] = IntersectionDetector(Xnew, Ynew, Parent, ObstacleMap, edges, Height, intersection, NodeMatrix)
+function [intersection, Test] = Copy_of_IntersectionDetector(Xnew, Ynew, Parent, ObstacleMap, edges, Height, intersection, NodeMatrix)
 
 
 

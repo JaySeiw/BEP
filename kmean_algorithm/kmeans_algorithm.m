@@ -1,4 +1,4 @@
-rng default; % Saves the random numbers seed
+%rng default; % Saves the random numbers seed
 %% Debris generation
 %X = [randn(100,2)*0.75+ones(100,2);
 %    randn(100,2)*0.5-ones(100,2)];
@@ -49,8 +49,14 @@ line1y = [vy(1, 1), vy(2, 1)];
 line2y = [vy(1, 2), vy(2, 2)];
 line3y = [vy(1, 3), vy(2, 3)];
 
+BinCoordinates = [vx(1, 1), vy(1, 1)];
 line1 = [vx(1, 1), vy(1, 1), vx(2,1), vy(2,1)];
 line2 = [vx(1, 2), vy(1, 2), vx(2,2), vy(2,2)];
 line3 = [vx(1, 3), vy(1, 3), vx(2,3), vy(2,3)];
+
+BinCoordinates
+line1
+line2
+line3
 
 hold off

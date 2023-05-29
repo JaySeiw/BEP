@@ -8,7 +8,7 @@ Xmax=50;
 Ymax=50;
 
 [ObstacleMatrix, RectangleMatrix ,edges]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
-%[Edges] = EdgesPartition(edges, agents, voronoiedge);
+
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 
 NodeMatrix=zeros(Nodes,4);
@@ -56,7 +56,7 @@ end
 %set k to 2 because we need to look at the parent of the first node, which is the origin
 k=2;
 % look for all the points within NodeMatrix. We want to make a plot that contains [X1 X2]=dx and [Y1 Y2]=dy
-while k<=Nodes+a
+while k<Nodes+a
     %X1 is in row k and X2 is in the row of the parent (mentioned in column 3)
     dx=[NodeMatrix(k,1), NodeMatrix(NodeMatrix(k,3),1)];
     dy=[NodeMatrix(k,2), NodeMatrix(NodeMatrix(k,3),2)];
@@ -91,4 +91,4 @@ end
 scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Start');
 %Scatter the goal
 scatter(Goal(1),Goal(2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Goal');
-plot([0 25 50 50], [50 25 50 50], 'k', 'LineWidth',4);
+plot([0 25 50 50], [50 25 50 50], 'b', 'LineWidth',4);

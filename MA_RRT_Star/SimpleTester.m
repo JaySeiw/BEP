@@ -57,12 +57,12 @@ narrowgap=[1,12,41,2,7;
              8,25,2,12,3;
              9,0,18.5,20,7];
 %% Input values
-start = [30, 0, 0, 0];
-goal = [16, 45, 0, 0];
-length = 3;
-nodes = 5000;
+Start = [30, 0, 0, 0];
+Goal = [16, 45, 0, 0];
+Length = 3;
+Nodes = 10;
 num_runs = 1; %the number of times to run each scenario
-environment=Ugoal;
+environment=protruding;
 
 
 %start = [4, 5, 0];
@@ -71,4 +71,4 @@ environment=Ugoal;
 %nodes = 3000;
 %num_runs = 10; %the number of times to run each scenario
 
-[~,~,~,NodeMatrix]=RRT_star_function(environment, start, goal, length, nodes);
+[~,~,~,NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes);

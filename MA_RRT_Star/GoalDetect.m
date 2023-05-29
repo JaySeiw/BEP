@@ -1,8 +1,8 @@
 function [a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length )
 %% find if node is near goal, determine which node along with chain of parents gives shortest route
 %we make a cube with a distance of 3 units around the goal, from here we discretize points
-GoalIntx=discretize(NodeMatrix(1:end-1,1),[Goal(1)-Length, Goal(1)+Length]);
-GoalInty=discretize(NodeMatrix(1:end-1,2),[Goal(2)-Length, Goal(2)+Length]);
+GoalIntx=discretize(NodeMatrix(1:end,1),[Goal(1)-Length, Goal(1)+Length]);
+GoalInty=discretize(NodeMatrix(1:end,2),[Goal(2)-Length, Goal(2)+Length]);
 %find the row(s) where a node is within the interval of the goal
 FGx=find(~isnan(GoalIntx));
 FGy=find(~isnan(GoalInty));
@@ -16,13 +16,15 @@ for a=1:height(Goalx)
 end
 % find the value in column 1 of the row which matches the smallest value in column 2
 if ~isempty(GoalLengthMatrix)
-    [val, row]=min(GoalLengthMatrix(:,3));
+    [~, row]=min(GoalLengthMatrix(:,3));
     %row
     GoalParentNode=GoalLengthMatrix(row , 1); %we can probably refine this part here, but it works
+    NodeMatrix(end+1,:)=Goal;
     NodeMatrix(end,[3, 4])=[GoalParentNode, GoalLengthMatrix(row,3)];
     %Have to set some variables here to draw right amount of lines and declare that a path to the goal has been found
     a=2;
     NoGoal=0;
+    disp('Goal found');
 else
     NoGoal=1;
     a=1;

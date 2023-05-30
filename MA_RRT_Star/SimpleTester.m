@@ -67,7 +67,7 @@ Start = [
 25.3, 25, 0, 0];
 Goal = [16, 45, 0, 0];
 Length = 3;
-Nodes = 100;
+Nodes = 500;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
 

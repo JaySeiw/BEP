@@ -107,7 +107,7 @@ if ~isempty(NodeLengthMatrix)
                         end
                     end
                     % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
-                    ch=NodeMatrix(children,4)+DeltaC
+                    %ch=NodeMatrix(children,4)+DeltaC
                     NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
                 end
                 %% Possibly rewire parent of all children affected to a smallest cost node?

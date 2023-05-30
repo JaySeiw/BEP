@@ -60,7 +60,7 @@ narrowgap=[1,12,41,2,7;
 start = [30, 0, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 500;
+nodes = 1000;
 num_runs = 1; %the number of times to run each scenario
 environment=Ugoal;
 

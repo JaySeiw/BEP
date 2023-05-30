@@ -1,0 +1,67 @@
+Xmax = 50;
+Ymax = 50;
+im = zeros(Xmax, Ymax);
+im = perlin_noise(im);
+
+figure; imagesc(im); %colormap gray;
+
+hold on;
+% Find troughs in the Perlin noise image
+thresh = 0.001; % Threshold to determine troughs
+troughs = im < thresh;
+
+[ObstacleMatrix, RectangleMatrix ,edges]=EnvironmentBuilder(Ustart); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
+Height=height(RectangleMatrix); % Count rows of RectangleMatrix
+
+
+no_of_debris=100;
+debris=zeros(no_of_debris,2);
+i=1;
+while i<no_of_debris+1
+    x_debris = rand * Xmax;  % Random x-coordinate for the hotspot center
+    y_debris = rand * Ymax;  % Random y-coordinate for the hotspot center
+    Intersection=InObstacleDetectCopy(x_debris,y_debris,ObstacleMatrix,Height);
+    if Intersection==0 && troughs(round(x_debris), round(y_debris))
+        debris(i,:)=[x_debris,y_debris];
+        i=i+1;
+    end
+end
+
+
+
+% % Generate debris points in the troughs
+% debrisX = [];
+% debrisY = [];
+% for row = 1:n
+%     for col = 1:m
+%         if troughs(row, col)
+%             debrisX = [debrisX, col];
+%             debrisY = [debrisY, row];
+%         end
+%     end
+% end
+% Plot the debris points on the graph
+plot(debris(:,1),debris(:,2), 'r.');
+
+hold off;
+
+function im = perlin_noise(im)
+
+    [n, m] = size(im);
+    i = 0;
+    w = sqrt(n*m);
+
+    while w > 3
+        i = i + 1;
+        d = interp2(randn(n, m), i-1, 'spline');
+        im = im + i * d(1:n, 1:m);
+        w = w - ceil(w/2 - 1);
+    end
+end 
+
+
+
+
+
+
+

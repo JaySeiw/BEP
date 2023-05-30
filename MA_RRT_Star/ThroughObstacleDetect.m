@@ -1,6 +1,7 @@
 function [Intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, Intersection, edges, NodeMatrix)
 %% Vertice through obstacle part
 % If marker has not yet been set to 1, then we will check for crossing of vertice through edges
+%edges
 if Intersection~=1
     i=1;
     %count up until last row of edges

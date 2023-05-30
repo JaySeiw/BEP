@@ -19,6 +19,13 @@ figure('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]
 hold on
 axis([0, Xmax, 0, Ymax]);
 axis normal
+
+
+
+
+
+
+%for loop for each partition one
 for a=1:3
     NodeMatrix(1,:)=Start(a,:);
     %edge=Edges{a+1}

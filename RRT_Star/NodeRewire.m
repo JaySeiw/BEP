@@ -78,34 +78,38 @@ if ~isempty(NodeLengthMatrix)
                 %% find children of children
                 %if children are present, we can look for their children and add them to the children matrix
                 if ~isempty(children)
-                    %take height of children matrix
+                    %set row-counter f to 1
                     f=1;
                     e=0;
                     while e==0
-                        %dr=children(f:end);
-                        %if there are children after the children we have already looked at, continue
+                        %check if children from f to end has any values
                         if ~isempty(children(f:end))
-                            f=height(children);
-                            %disp('CC')
-                            %find all children's children in the nodematrix that correspond to children matrix row f+1 until the end
-                            CC=find(NodeMatrix(:,3)==children(f:end));
-                            %if this is empty and there are no children left, we can break the while loop and stop searching
+                            %create CC
+                            CC=double.empty;
+                            %we want to check only rows of children from f up until the end of children
+                            for g=f:height(children)
+                                %add to CC the children per row that was newly added
+                                CC=vertcat(CC,find(NodeMatrix(:,3)==children(g)));
+                            end
+                            %if nothing is found in CC then we can break the loop, otherwise we can add them to the children matrix
                             if isempty(CC)
                                 e=1;
+                            else
+                                %set row-counter f to the height of children+1 so we can check for next newly added part
+                                f=height(children)+1;
+                                %add CC to children matrix
+                                children=vertcat(children,CC);
                             end
-                            %add x-rows of CC to the children matrix
-                            vertcat(children,CC);
-                            %take height of CC and add to f
-                            f=f+height(CC);
-                        % if there are no children left, break the search too
+                            % if there are no children left, break the search too
                         else
                             %disp('no CC')
                             e=1;
                         end
                     end
+                    % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
+                    ch=NodeMatrix(children,4)+DeltaC
+                    NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
                 end
-                % Adjust children's cost to the cost they had to the original parent with the reduction in cost we created before
-                NodeMatrix(children,4)=NodeMatrix(children,4)+DeltaC;
                 %% Possibly rewire parent of all children affected to a smallest cost node?
             end
         end

@@ -139,14 +139,14 @@ scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', '
 scatter(NodeMatrix(end,1),NodeMatrix(end,2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Goal');
 %}
 %% AnimationCode START
-filename = 'C:\Users\Frank\Documents\GitHub\BEP\RRT_Star\Images\RRTStarAnimation';
+filename = 'C:\Users\Frank\Documents\GitHub\BEP\RRT_Star\Images\RRTStarAnimation.gif';
 for i = 1:Nodes+no_of_nodes_path
     frame = frames{i};
     im = frame2im(frame);
     [imind, cm] = rgb2ind(im, 256);
     if i == 1
-        imwrite(imind, cm, filename, 'gif', 'Loopcount', inf, 'DelayTime', 0.00001);
+        imwrite(imind, cm, filename, 'gif', 'Loopcount', inf, 'DelayTime', 0.0000001);
     else
-        imwrite(imind, cm, filename, 'gif', 'WriteMode', 'append', 'DelayTime', 0.00001);
+        imwrite(imind, cm, filename, 'gif', 'WriteMode', 'append', 'DelayTime', 0.0000001);
     end
 end

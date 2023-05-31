@@ -1,6 +1,6 @@
 function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes)
-close all hidden
-
+%close all hidden
+rng default;
 
 %% Global variables:
 Xmax=50;
@@ -43,16 +43,19 @@ for a=1:3
             %% check where to connect it to the node, connect to lowest cost around
             %go to the end of NodeMatrix and add a new row where the new values are inserted
             NodeMatrix(i+1,:)=[Xnew Ynew Parent Cost];
-            [NodeMatrix] = NodeRewire (NodeMatrix, Length,i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
+            %[dx dy add]
+            [NodeMatrix] = NodeRewire (NodeMatrix, Length, i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
+            %[   [indexold] remove %index of all rewired nodes with old parents - remove line
+            %    [indexnew] add] %index of all rewired nodes with new parent - add line
             node_count= node_count+1; %Increment node count
             i=i+1;
         end
     end
     Nodematrices{a}=NodeMatrix;
-    Nodematrices(a)
+    %Nodematrices(a)
     %NodeMatrix
 
-Nodematrices
+%Nodematrices
 %NodeMatrix1=Nodematrices{1}
 
 %% Find parent for the goal node

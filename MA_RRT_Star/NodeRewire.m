@@ -8,7 +8,6 @@ function [NodeMatrix] = NodeRewire(NodeMatrix, Length,i, edges)
 % check if edgexobstacle is not true
 % look for node with lowest cost (total path length)*
 
-
 %% we make a cube with a distance of 3 units around the node, from here we discretize points
 NRx=discretize(NodeMatrix(1:end,1),[NodeMatrix(i,1)-Length, NodeMatrix(i,1)+Length]);
 NRy=discretize(NodeMatrix(1:end,2),[NodeMatrix(i,2)-Length, NodeMatrix(i,2)+Length]);

@@ -58,8 +58,11 @@ narrowgap=[1,12,41,2,7;
              9,0,18.5,20,7];
 partitioned=[
 1,2,3,4,4;
-2,45,45,5,5
-3,35,2,4,4];
+2,45,45,5,5;
+3,35,2,4,4;
+4,30,24,6,6];
+
+
 %% Input values
 Start = [
 25, 25.3, 0, 0;
@@ -67,7 +70,7 @@ Start = [
 25.3, 25, 0, 0];
 Goal = [16, 45, 0, 0];
 Length = 3;
-Nodes = 100;
+Nodes = 500;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
 

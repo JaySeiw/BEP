@@ -29,6 +29,7 @@ for a=1:agents
     end
     %EdgesCrossTemp
     %add the edges matrix to the corresponding cell for the partition we're in right now
+    EdgesCrossTemp
     Edges{a+1}=vertcat(Edges{a+1},EdgesCrossTemp);
     EdgesInTemp=double.empty;
     %now we will check if obstacle is inside polygon by checking the entire obstacle through verifying that all edge points are inside
@@ -51,6 +52,7 @@ for a=1:agents
 
         c=c+4;
     end
+    EdgesInTemp
     Edges{a+1}=vertcat(Edges{a+1},EdgesInTemp);
     %cell2mat(Edges(2,:))
     %Edges{a+1}

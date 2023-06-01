@@ -1,4 +1,4 @@
-function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes)
+function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Length, Nodes)
 close all hidden
 %function [outputs] = name(inputs); i am just a sample
 
@@ -11,6 +11,11 @@ Ymax=50;
 
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 
+[debris,im]=perlin_debris(environment);
+
+goal= debris(1,:);
+Goal=[goal,0,0];
+
 NodeMatrix=zeros(Nodes,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
@@ -22,14 +27,24 @@ figure('Name', 'RRT* Animation', 'units', 'normalized', 'outerposition', [0.2 0.
 axis([0, Xmax, 0, Ymax]);
 hold on
 
+%plot perlin noise
+imagesc(im)
+
 % Plot the obstacles
 for q = 1:Height
     rectangle('Position', RectangleMatrix(q, [2, 3, 4, 5]), 'FaceColor', 'black');
 end
 
+%plot debris
+plot(debris(:,1),debris(:,2), 'w.');
+%set(gca, 'YDir','reverse')
+ax = gca;
+ax.YDir = 'normal';
 % Plot the start and goal positions
 scatter(NodeMatrix(1, 1), NodeMatrix(1, 2), 'md', 'filled', 'MarkerEdgeColor', 'black', 'LineWidth', 3);
 scatter(Goal(1, 1), Goal(1, 2), 'mh', 'filled', 'MarkerEdgeColor', 'black', 'LineWidth', 3);
+
+
 
 % Initialize an empty array to store line handles
 linesDraw = [];
@@ -80,7 +95,7 @@ NodeMatrix(end+1,:)=Goal;
 
 
 %% Find parent for the goal node
-[a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
+[~, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
 
 
 %% Drawing part

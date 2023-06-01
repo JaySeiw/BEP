@@ -1,4 +1,4 @@
-function [debris]=perlin_debris(environment)
+function [debris,im]=perlin_debris(environment)
 
 Xmax = 50;
 Ymax = 50;
@@ -18,29 +18,30 @@ i=1;
 while i<no_of_debris+1
     x_debris = randi([1 Xmax],1);  % Random x-coordinate for the hotspot center
     y_debris = randi([1 Ymax],1);  % Random y-coordinate for the hotspot center
-    Intersection=InObstacleDetectCopy(x_debris,y_debris,ObstacleMatrix,Height);
+    Intersection=InObstacleDetect(x_debris,y_debris,ObstacleMatrix,Height);
     if Intersection==0 && troughs(y_debris,x_debris)
         debris(i,:)=[x_debris,y_debris];
         i=i+1;
     end
 end
 
-figure; 
-%plot perlin noise
-%subplot(1,1,1);
-imagesc(im); %colormap gray;
+% figure; 
+% %plot perlin noise
+% %subplot(1,1,1);
+% imagesc(im); %colormap gray;
+% 
+% hold on;
+% % Draw all rectangles
+% for q=1:Height
+%     rectangle('Position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
+% end
+% hold on;
+% 
+% %plot debris
+% plot(debris(:,1),debris(:,2), 'm.');
+% set(gca, 'YDir','reverse')
 
-hold on;
-% Draw all rectangles
-for q=1:Height
-    rectangle('Position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
-end
-hold on;
-
-%plot debris
-plot(debris(:,1),debris(:,2), 'r.');
-
-hold off;
+% hold off;
 function im = perlin_noise(im)
 
     [Xmax, Ymax] = size(im);

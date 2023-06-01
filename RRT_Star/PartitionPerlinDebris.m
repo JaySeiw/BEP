@@ -1,3 +1,5 @@
+function [debris, BinLocation, line1, line2, line3]=PartitionPerlinDebris(environment)
+
 %rng default; % Saves the random numbers seed
 
 t = 0;

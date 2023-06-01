@@ -12,7 +12,7 @@ troughs = im < thresh;
 [ObstacleMatrix, RectangleMatrix ,~]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 
-no_of_debris=500;
+no_of_debris=20;
 debris=zeros(no_of_debris,2);
 i=1;
 while i<no_of_debris+1
@@ -25,23 +25,20 @@ while i<no_of_debris+1
     end
 end
 
-% figure; 
-% %plot perlin noise
-% %subplot(1,1,1);
-% imagesc(im); %colormap gray;
-% 
-% hold on;
-% % Draw all rectangles
-% for q=1:Height
-%     rectangle('Position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
-% end
-% hold on;
-% 
-% %plot debris
-% plot(debris(:,1),debris(:,2), 'm.');
-% set(gca, 'YDir','reverse')
+figure; 
+%plot perlin noise
+%subplot(1,1,1);
+imagesc(im); %colormap gray;
+ 
+hold on;
+% Draw all rectangles
+for q=1:Height
+    rectangle('Position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
+end
 
-% hold off;
+%plot debris
+plot(debris(:,1),debris(:,2), 'm.');
+set(gca, 'YDir','reverse')
 function im = perlin_noise(im)
 
     [Xmax, Ymax] = size(im);

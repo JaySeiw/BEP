@@ -1,11 +1,11 @@
-function [Edges] = ObstaclePartitioner(edges,agents,voronoiedge)
+function [Edges] = ObstaclePartitioner(edges,agents,VoronoiEdge)
 agents=3;
 % We look per obstacle if it crosses the voronoi region so that we can adjust the edges function per voronoi region to include only those obstacles inside or crossing this region
 Edges=cell(agents+1,1);
-voronoiedge=cell(agents,2);
-voronoiedge(1,:)={[0 25 50 0], [50 25 50 50]};
-voronoiedge(2,:)={[0 25 25 0 0], [50 25 0 0 50]};
-voronoiedge(3,:)={[25 25 50 50 25], [0 25 50 0 0]};
+VoronoiEdge=cell(agents,2);
+VoronoiEdge(1,:)={[0 25 50 0], [50 25 50 50]};
+VoronoiEdge(2,:)={[0 25 25 0 0], [50 25 0 0 50]};
+VoronoiEdge(3,:)={[25 25 50 50 25], [0 25 50 0 0]};
 Edges{1}=edges;
 
 %go per partition
@@ -15,8 +15,8 @@ for a=1:agents
     for b=1:height(edges)
         %check if edge crosses voronoi partition
         %Convert X and Y row vectors in cell back to vector
-        Xtr=cell2mat(voronoiedge(a,1));
-        Ytr=cell2mat(voronoiedge(a,2));
+        Xtr=cell2mat(VoronoiEdge(a,1));
+        Ytr=cell2mat(VoronoiEdge(a,2));
         %Determine intersection
         [xPart, yPart] = polyxpoly(Xtr,Ytr,edges(b,[1 3]),edges(b,[2 4])) ;
         %if there is nothing in the cell, then do nothing
@@ -58,12 +58,12 @@ for a=1:agents
     %Edges{a+1}
     %hoogte=height(Edges(2))
     %Edges
-    vwidth=width(cell2mat(voronoiedge(a,1)))-1;
+    vwidth=width(cell2mat(VoronoiEdge(a,1)))-1;
     voronoimatrix=zeros(vwidth,4);
     for e=1:vwidth
         %voronoiedge{a}(1,e)
-        voronoi1temp=[voronoiedge{a,1}(e) voronoiedge{a,2}(e)];
-        voronoi2temp=[voronoiedge{a,1}(e+1) voronoiedge{a,2}(e+1)];
+        voronoi1temp=[VoronoiEdge{a,1}(e) VoronoiEdge{a,2}(e)];
+        voronoi2temp=[VoronoiEdge{a,1}(e+1) VoronoiEdge{a,2}(e+1)];
         voronoitemp=horzcat(voronoi1temp,voronoi2temp);
         voronoimatrix(e,:)=voronoitemp;
     end

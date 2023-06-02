@@ -1,5 +1,4 @@
 function [debris,im]=perlin_debris(environment)
-
 Xmax = 50;
 Ymax = 50;
 im = zeros(Xmax, Ymax);
@@ -38,7 +37,7 @@ end
 
 %plot debris
 plot(debris(:,1),debris(:,2), 'm.');
-set(gca, 'YDir','reverse')
+set(gca, 'xdir','reverse')
 function im = perlin_noise(im)
 
     [Xmax, Ymax] = size(im);

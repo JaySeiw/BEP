@@ -26,19 +26,24 @@ while i<no_of_debris+1
 end
 
 figure; 
+axis([0, 50, 0, 50]);
+axis manual
+hold on;
 %plot perlin noise
 %subplot(1,1,1);
 imagesc(im); %colormap gray;
- 
-hold on;
+
+
+
 % Draw all rectangles
+
 for q=1:Height
     rectangle('Position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
 end
 
 %plot debris
 plot(debris(:,1),debris(:,2), 'm.');
-set(gca, 'YDir','reverse')
+%set(gca, 'YDir','reverse')
 function im = perlin_noise(im)
 
     [Xmax, Ymax] = size(im);

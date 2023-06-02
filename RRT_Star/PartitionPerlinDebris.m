@@ -1,7 +1,15 @@
-function [debris, BinLocation, line1, line2, line3]=PartitionPerlinDebris(environment)
+function [debris, BinLocation, line1, line2, line3, Cluster1, Cluster2, Cluster3]=PartitionPerlinDebris(environment)
 
 %rng default; % Saves the random numbers seed
-
+Ustart= [1,1,3,2,7; 
+         2,1,8,7,2;
+         3,6,3,2,7;
+         4,20,10,6,5;
+         5,11,26,3,9;
+         6,25,30,8,6;
+         7,40,20,7,10;
+         8,12,16,3,2;
+         9,25,2,12,3];
 t = 0;
 while t==0
     environment = Ustart;
@@ -15,12 +23,19 @@ while t==0
     
     CentXCol = C(:, 1); %x-coordinates for the centroids
     CentYCol = C(:, 2); %y-coordinates for the centroids 
-    
+    Cluster1 = [X(idx==1,1),X(idx==1,2)];
+    Cluster2 = [X(idx==2,1),X(idx==2,2)];
+    Cluster3 = [X(idx==3,1),X(idx==3,2)];
     plot(X(idx==1,1),X(idx==1,2),'r.','MarkerSize',15)  %plots the debris in the first centroid              
     plot(X(idx==2,1),X(idx==2,2),'k.','MarkerSize',15)  %plots the debris in the second centroid  
     plot(X(idx==3,1),X(idx==3,2),'w.','MarkerSize',15)  %plots the debris in the third centroid  
+    %{
     plot(C(:,1),C(:,2),'kx',...                         %plots the centroids
          'MarkerSize',15,'LineWidth',3)
+    %}
+    plot(C(1,1),C(1,2),'kx','MarkerSize',15,'LineWidth',3, 'MarkerEdgeColor','r') %plots the centroids separately 
+    plot(C(2,1),C(2,2),'kx','MarkerSize',15,'LineWidth',3, 'MarkerEdgeColor','k') %plots the centroids seperately
+    plot(C(3,1),C(3,2),'kx','MarkerSize',15,'LineWidth',3, 'MarkerEdgeColor','w') %plots the centroids separately 
     voronoi(CentXCol, CentYCol);% Draw Voronoi for given set points
     [vx, vy] = voronoi(CentXCol, CentYCol);
     CrossPoint = [vx(1, 1), vy(1, 1)];
@@ -45,6 +60,9 @@ BinCoordinates = [vx(1, 1), vy(1, 1)];
 line1 = [vx(1, 1), vy(1, 1), vx(2,1), vy(2,1)];
 line2 = [vx(1, 2), vy(1, 2), vx(2,2), vy(2,2)];
 line3 = [vx(1, 3), vy(1, 3), vx(2,3), vy(2,3)];
+Cluster1 = [X(idx==1,1),X(idx==1,2)];
+Cluster2 = [X(idx==2,1),X(idx==2,2)];
+Cluster3 = [X(idx==3,1),X(idx==3,2)];
 %{
 BinCoordinates
 line1

@@ -2,7 +2,7 @@ function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(
 close all hidden
 %function [outputs] = name(inputs); i am just a sample
 
-%% Global variables:
+%% Variables:
 
 Xmax=50;
 Ymax=50;

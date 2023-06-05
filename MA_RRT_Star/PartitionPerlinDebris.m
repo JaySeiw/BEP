@@ -1,4 +1,4 @@
-function [debris, VoronoiEdge, Cluster1, Cluster2, Cluster3]=PartitionPerlinDebris(environment)
+function [Start,VoronoiEdge, Cluster1, Cluster2, Cluster3]=PartitionPerlinDebris(environment)
 
 %rng default; % Sets default RNG value, does not save it
 t = 0;
@@ -82,7 +82,17 @@ for g=1:3
     if Theta(g)<0
         Theta(g)=2*pi+Theta(g);
     end
+    for e=1:2
+    if VoronoiEdge{g+1,2}(e)>50
+        
+    elseif VoronoiEdge{g+1,2}(e)<0
+    end
+    end
 end
+
+
+
+
 %% calculating middle angles between lines
 %a lot of different angle configurations. This is probably also doable with cross and dot product, but it has some constraints to the lines we are using 
 % and I am too lazy to do that, so this is easy copy pasting, just a lot of code
@@ -166,7 +176,7 @@ Start(1,:)=(0.5*[cos(Middle(1,2)) sin(Middle(1,2))])+CrossPoint;
 Start(2,:)=(0.5*[cos(Middle(2,3)) sin(Middle(2,3))])+CrossPoint;
 %start between lines 3 and 1
 Start(3,:)=(0.5*[cos(Middle(3,1)) sin(Middle(3,1))])+CrossPoint;
-
+Start=horzcat(Start,zeros(3,2));
 
 
 %{
@@ -194,4 +204,3 @@ scatter(CrossPoint(1, 1), CrossPoint(1, 2), 100,  'MarkerFaceColor', 'w', 'Marke
 plot(Start(1,1),Start(1,2), 'md')%, "filled")
 plot(Start(2,1),Start(2,2), 'md')%, "filled")
 plot(Start(3,1),Start(3,2), 'md')%, "filled")
-hold off

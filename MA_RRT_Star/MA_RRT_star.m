@@ -1,4 +1,4 @@
-function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes)
+function [node_count, no_of_nodes_path, len_path, NodeMatrix]=MA_RRT_star(environment, Goal, Length, Nodes)
 %close all hidden
 rng default;
 
@@ -11,15 +11,9 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 NodeMatrix=zeros(Nodes,4);
 %NodeMatrix(1,:)=Start; % Add start to nodematrix
 node_count=1; %initialize node count to 1
-[Edges] = ObstaclePartitioner(edges);
+[Start, VoronoiEdge, ~, ~, ~]=PartitionPerlinDebris(environment);
+[Edges] = ObstaclePartitioner(edges,VoronoiEdge);
 Nodematrices=cell(3,1);
-% Hi, I have enlarged the size of the figure down here starting from 'units'
-figure('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8] , 'NumberTitle','off');
-%hold on so that all further drawings are stacked on top of eachother
-hold on
-axis([0, Xmax, 0, Ymax]);
-axis normal
-
 
 
 
@@ -81,7 +75,6 @@ while k<=Nodes+q
     k=k+1;
 end
 NoGoal=1;
-legend
 %Scatter all the nodes as red dots
 scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'Node');
 if NoGoal==0
@@ -108,4 +101,3 @@ scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', '
 %Scatter the goal
 scatter(Goal(1),Goal(2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Goal');
 end
-plot([0 25 50 0], [50 25 50 50],'k',[0 25 25 0 0],[50 25 0 0 50],'k',[25 25 50 50 25], [0 25 50 0 0],'k', 'LineWidth',4);

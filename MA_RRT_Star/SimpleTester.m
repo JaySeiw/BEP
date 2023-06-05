@@ -81,4 +81,4 @@ environment=partitioned;
 %nodes = 3000;
 %num_runs = 10; %the number of times to run each scenario
 
-[~,~,~,NodeMatrix]=RRT_star_function(environment, Start, Goal, Length, Nodes);
+[~,~,~,NodeMatrix]=MA_RRT_star(environment, Goal, Length, Nodes);

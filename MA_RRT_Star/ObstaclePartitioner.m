@@ -11,8 +11,8 @@ for a=1:agents
     for b=1:height(edges)
         %check if edge crosses voronoi partition
         %Convert X and Y row vectors in cell back to vector
-        Xtr=cell2mat(VoronoiEdge(a+1,1));
-        Ytr=cell2mat(VoronoiEdge(a+1,2));
+        Xtr=[VoronoiEdge{a+1,1}(1) VoronoiEdge{a+1,2}(1)];
+        Ytr=[VoronoiEdge{a+1,1}(2) VoronoiEdge{a+1,2}(2)];
         %Determine intersection
         [xPart, yPart] = polyxpoly(Xtr,Ytr,edges(b,[1 3]),edges(b,[2 4])) ;
         %if there is nothing in the cell, then do nothing
@@ -51,16 +51,28 @@ for a=1:agents
     Edges{a+1}=vertcat(Edges{a+1},EdgesInTemp);
 
     %% add voronoi partition edges to the edges matrix
-    vwidth=width(cell2mat(VoronoiEdge(a+1,1)))-1;
-    voronoimatrix=zeros(vwidth,4);
+    if a==1
+        e=[2 3];
+    elseif a==2
+        e=[3 4];
+    else
+        e=[2 4];
+    end
+    PartitionEdges=zeros(2,4);
+    PartitionEdges(1,:)=[VoronoiEdge{e(1),1}(1) VoronoiEdge{e(1),1}(2) VoronoiEdge{e(1),2}(1) VoronoiEdge{e(1),2}(2)];
+    PartitionEdges(2,:)=[VoronoiEdge{e(2),1}(1) VoronoiEdge{e(2),1}(2) VoronoiEdge{e(2),2}(1) VoronoiEdge{e(2),2}(2)];
+    Edges{a+1}=vertcat(Edges{a+1},PartitionEdges);
+    %{
+    vwidth=width(cell2mat(VoronoiEdge(a+1,1)));
+    voronoimatrix=zeros(2,4);
     for e=1:vwidth
-        %voronoiedge{a}(1,e)
         voronoi1temp=[VoronoiEdge{a+1,1}(e) VoronoiEdge{a+1,2}(e)];
         voronoi2temp=[VoronoiEdge{a+1,1}(e+1) VoronoiEdge{a+1,2}(e+1)];
         voronoitemp=horzcat(voronoi1temp,voronoi2temp);
-        voronoimatrix(e,:)=voronoitemp;
+        voronoimatrix(e,:)=voronoitemp
     end
-    Edges{a+1}=vertcat(Edges{a+1},voronoimatrix);
-    %cell2mat(Edges(2,:))
+    %Edges{a+1}=vertcat(Edges{a+1},voronoimatrix);
+    %}
+    %Edges{a+1}
 end
 end

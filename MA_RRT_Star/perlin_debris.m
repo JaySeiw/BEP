@@ -25,8 +25,10 @@ while i<no_of_debris+1
     end
 end
 
-figure; 
-axis([0, 50, 0, 50]);
+% Hi, I have enlarged the size of the figure down here starting from 'units'
+figure('Name','MA_RRT_Star', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8] , 'NumberTitle','off');
+%hold on so that all further drawings are stacked on top of eachother
+axis([0, Xmax, 0, Ymax]);
 axis manual
 hold on;
 %plot perlin noise

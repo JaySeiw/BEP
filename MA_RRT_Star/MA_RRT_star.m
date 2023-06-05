@@ -1,6 +1,6 @@
 function [node_count, no_of_nodes_path, len_path, NodeMatrix]=MA_RRT_star(environment, Goal, Length, Nodes)
 %close all hidden
-rng default;
+%rng default;
 
 %% Global variables:
 Xmax=50;
@@ -11,7 +11,7 @@ Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 NodeMatrix=zeros(Nodes,4);
 %NodeMatrix(1,:)=Start; % Add start to nodematrix
 node_count=1; %initialize node count to 1
-[Start, VoronoiEdge, ~, ~, ~]=PartitionPerlinDebris(environment);
+[Start, VoronoiEdge, ~, ~, ~]=PartitionPerlinDebris(Xmax,Ymax,environment);
 [Edges] = ObstaclePartitioner(edges,VoronoiEdge);
 Nodematrices=cell(3,1);
 
@@ -22,7 +22,6 @@ Nodematrices=cell(3,1);
 %for loop for each partition one
 for a=1:3
     NodeMatrix(1,:)=Start(a,:);
-    %edge=Edges{a+1}
     edges=Edges{a+1};
     i=1;
     %% RRT Algorithm
@@ -46,11 +45,6 @@ for a=1:3
         end
     end
     Nodematrices{a}=NodeMatrix;
-    %Nodematrices(a)
-    %NodeMatrix
-
-%Nodematrices
-%NodeMatrix1=Nodematrices{1}
 
 %% Find parent for the goal node
 %[a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
@@ -75,6 +69,7 @@ while k<=Nodes+q
     k=k+1;
 end
 NoGoal=1;
+%legend
 %Scatter all the nodes as red dots
 scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'Node');
 if NoGoal==0

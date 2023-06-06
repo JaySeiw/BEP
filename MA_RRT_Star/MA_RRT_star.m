@@ -19,10 +19,10 @@ Nodematrices=cell(3,1);
 
 
 %for loop for each partition one
-for a=3:3
+for a=1:3
     NodeMatrix(1,:)=Start(a,:);
     edges=Edges{a+1};
-    edges
+    %edges
     i=1;
     %% RRT Algorithm
     while i<Nodes+1

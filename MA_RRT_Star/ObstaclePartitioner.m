@@ -4,7 +4,7 @@ Edges=cell(4,1);
 Edges{1}=edges;
 
 %go per partition
-for a=3:3
+for a=1:3
     EdgesCrossTemp=double.empty;
     %check if edge crosses voronoi partition
     %Convert X and Y row vectors in cell back to vector
@@ -22,13 +22,13 @@ for a=3:3
             %disp('polyxpoly');
         end
     end
-    EdgesCrossTemp
+    %EdgesCrossTemp
     %add the edges matrix to the corresponding cell for the partition we're in right now
     Edges{a+1}=vertcat(Edges{a+1},EdgesCrossTemp);
     EdgesInTemp=double.empty;
     %now we will check if obstacle is inside polygon by checking the entire obstacle through verifying that all edge points are inside
     c=1;
-    while c+3~=height(edges)
+    while c~=height(edges)+1
         [in1, on1] =inpolygon(edges([c, c+1, c+2, c+3],[1 3]), edges([c, c+1, c+2, c+3],[2 4]), Xtr, Ytr);
         %[in2, on2] =inpolygon(edges(c+1,[1 3]), edges(c+1,[2 4]), Xtr, Ytr);
         %[in3, on3] =inpolygon(edges(c+2,[1 3]), edges(c+2,[2 4]), Xtr, Ytr);
@@ -46,7 +46,7 @@ for a=3:3
 
         c=c+4;
     end
-    EdgesInTemp
+    %EdgesInTemp
     %add EdgesInTemp to the edges matrix
     Edges{a+1}=vertcat(Edges{a+1},EdgesInTemp);
     %Edges{a+1}

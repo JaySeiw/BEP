@@ -18,7 +18,7 @@ i=1;
 while i<no_of_debris+1
     x_debris = randi([1 Xmax],1);  % Random x-coordinate for the hotspot center
     y_debris = randi([1 Ymax],1);  % Random y-coordinate for the hotspot center
-    Intersection=InObstacleDetect(x_debris,y_debris,ObstacleMatrix,Height);
+    Intersection=InObstacleDetect(x_debris,y_debris,ObstacleMatrix);
     if Intersection==0 && troughs(y_debris,x_debris)
         debris(i,:)=[x_debris,y_debris];
         i=i+1;

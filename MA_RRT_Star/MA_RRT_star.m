@@ -6,30 +6,30 @@ function [node_count, no_of_nodes_path, len_path, NodeMatrix]=MA_RRT_star(enviro
 Xmax=50;
 Ymax=50;
 [ObstacleMatrix, RectangleMatrix ,edges]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
-%[Edges] = EdgesPartition(edges, agents, voronoiedge);
-Height=height(RectangleMatrix); % Count rows of RectangleMatrix
+Height=height(RectangleMatrix);
 NodeMatrix=zeros(Nodes,4);
-%NodeMatrix(1,:)=Start; % Add start to nodematrix
 node_count=1; %initialize node count to 1
-[Start, VoronoiEdge, ~, ~, ~]=PartitionPerlinDebris(Xmax,Ymax,environment);
+%Partition the debris into voronoi regions
+[Start, VoronoiEdge, ~, ~, ~]=PartitionPerlinDebris(Xmax,Ymax,environment, ObstacleMatrix);
+%divide the edges per partition
 [Edges] = ObstaclePartitioner(edges,VoronoiEdge);
+%set up cell for all the nodematrices
 Nodematrices=cell(3,1);
 
 
 
-
-
 %for loop for each partition one
-for a=1:3
+for a=3:3
     NodeMatrix(1,:)=Start(a,:);
     edges=Edges{a+1};
+    edges
     i=1;
     %% RRT Algorithm
     while i<Nodes+1
         %Function for creating new nodes, looks for parent with smallest cost towards start
         [Xnew, Ynew, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, Length, i, Nodes, Goal);
         %function for checking if the node/ line from node to parent node intersects with any obstacle
-        [Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height);
+        [Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix);
         [Intersection] = ThroughObstacleDetect(Xnew, Ynew, Parent, Intersection, edges, NodeMatrix);
         %add node to matrix if intersection==0
         if Intersection==0

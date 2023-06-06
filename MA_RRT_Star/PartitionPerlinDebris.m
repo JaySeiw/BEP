@@ -1,4 +1,4 @@
-function [Start,VoronoiEdge, Cluster1, Cluster2, Cluster3]=PartitionPerlinDebris(Xmax,Ymax,environment)
+function [Start,VoronoiEdge, Cluster1, Cluster2, Cluster3]=PartitionPerlinDebris(Xmax,Ymax,environment,ObstacleMatrix)
 
 %rng default; % Sets default RNG value, does not save it
 t = 0;
@@ -49,7 +49,7 @@ line3y = vy(2,3)-vy(1,1);
 BinCoordinates = {CrossPoint, []};
 
 %Make a cell to export for future use
-VoronoiEdge=cell(4,3);
+VoronoiEdge=cell(4,4);
 %starting point of all lines
 VoronoiEdge(1,[1 2])=BinCoordinates;
 %coordinates of lines 1, 2 and 3
@@ -62,38 +62,134 @@ Theta(1)=atan2(line1y,line1x);
 Theta(2)=atan2(line2y,line2x);
 Theta(3)=atan2(line3y,line3x);
 %convert all lines to within interval [0 Xmax 0 Ymax]
+sectors=zeros(3,5);
 for g=1:3
+    q=1;
     % if x-coordinate surpasses 50
     if VoronoiEdge{g+1,2}(1)>50
         %set new y
         VoronoiEdge{g+1,2}(2)=CrossPoint(2) + (Xmax-CrossPoint(1)) * tan(Theta(g));
         %set new x
         VoronoiEdge{g+1,2}(1)=50;
-    %if x-coordinate surpasses 0
+        %if x-coordinate surpasses 0
     elseif VoronoiEdge{g+1,2}(1)<0
         %set new y
         VoronoiEdge{g+1,2}(2)=CrossPoint(2)-CrossPoint(1)*tan(Theta(g));
         %set new x
         VoronoiEdge{g+1,2}(1)=0;
-    %if y-coordinate surpasses 50
-    elseif VoronoiEdge{g+1,2}(2)>50
+        %if y-coordinate surpasses 50
+    end
+    if VoronoiEdge{g+1,2}(2)>50
         %set new x
         VoronoiEdge{g+1,2}(1)=CrossPoint(1)+(Ymax-CrossPoint(2))/tan(Theta(g));
         %set new y
         VoronoiEdge{g+1,2}(2)=50;
-    %if y-coordinate surpasses 0
+        %if y-coordinate surpasses 0
     elseif VoronoiEdge{g+1,2}(2)<0
         %set new x
         VoronoiEdge{g+1,2}(1)=CrossPoint(1)-CrossPoint(2)/tan(Theta(g));
         %set new y
         VoronoiEdge{g+1,2}(2)=0;
+        %elseif any(VoronoiEdge{g+1,2(1) VoronoiEdge}
     end
-
+%{
+    while q~=0
+        if all([any(VoronoiEdge{g+1,2}>=0) any(VoronoiEdge{g+1,2}<=50)]==false)
+            disp('niet goed')
+            VoronoiEdge{g+1,2}=VoronoiEdge{g+1,2}+[0.1*cos(Theta(g)) 0.1*sin(Theta(g))];
+        else
+            q=0;
+        end
+    end
+%}
     if Theta(g)<0
         Theta(g)=2*pi+Theta(g);
     end
 
+    if discretize(Theta(g),[(7/4)*pi, 2*pi])==1||discretize(Theta(g),[0, (1/4)*pi])==1
+        sectors(g,1)=1;
+    elseif discretize(Theta(g),[(1/4)*pi, (3/4)*pi])==1
+        sectors(g,1)=2;
+    elseif discretize(Theta(g),[(3/4)*pi, (5/4)*pi])==1
+        sectors(g,1)=3;
+    elseif discretize(Theta(g),[(5/4)*pi, (7/4)*pi])==1
+        sectors(g,1)=4;
+    end
 end
+%we fill in the rest of the data: column two is destination of travel and column 3 is the amount of lines needed to reach column two
+sectors(1,2)=sectors(2,1);
+sectors(2,2)=sectors(3,1);
+sectors(3,2)=sectors(1,1);
+sectors(1,3)=abs(sectors(1)-sectors(2));
+sectors(2,3)=abs(sectors(2)-sectors(3));
+sectors(3,3)=abs(sectors(3)-sectors(1));
+sectors(1,[4 5])=[1 2];
+sectors(2,[4 5])=[2 3];
+sectors(3,[4 5])=[3 1];
+for g=1:3
+    if sectors(g,3)==3
+        sectors(g,3)=1;
+    end
+    sectors(g,3)=sectors(g,3)+1;
+    avg=0.5*(sectors(g,1)+sectors(g,2));
+    d=[3 1 2];
+    if  sectors(g,[1 2]) == [4 1]
+
+    elseif sectors(g,[1 2]) == [1 4]
+        sectors(g,[1 2])=sectors(g,[2 1]);
+        sectors(g,[4 5])=sectors(g,[5 4]);
+        %skips sector 1 4 situations, but checks if a line is within the sector sequence
+
+    elseif sectors(d(g),1)==avg|sectors(d(g),2)==avg
+        if sectors(g,1)>sectors(g,2)
+        else
+            sectors(g,[1 2])=sectors(g,[2 1]);
+            sectors(g,[4 5])=sectors(g,[5 4]);
+        end
+
+    elseif sectors(g,1)>sectors(g,2)
+        sectors(g,[1 2])=sectors(g,[2 1]);
+        sectors(g,[4 5])=sectors(g,[5 4]);
+    end
+end
+
+
+Journey=cell(3,2);
+sequence=cell(4,1);
+sequence{1}=[[50 0]  ; [50 50]];
+sequence{2}=[[0  0]  ; [50 0]];
+sequence{3}=[[0 50]  ; [0 0]];
+sequence{4}=[[50 50] ; [0 50]];
+for a=1:3
+    %journey starts in a sector, and goes counterclockwise to the final sector
+    b=0;
+    %go until all lines (b) are added to vector
+    while b<sectors(a,3)
+        if b==0
+            %add coordinates of first point
+            xjourney=VoronoiEdge{sectors(a,4)+1,2}(1);
+            yjourney=VoronoiEdge{sectors(a,4)+1,2}(2);
+        else
+            %move through the sequence
+            xjourney=horzcat(xjourney,sequence{sectors(a,1)}(1,b));
+            yjourney=horzcat(yjourney,sequence{sectors(a,1)}(2,b));
+
+        end
+        b=b+1;
+
+
+    end
+    %add coordinates of final point
+    xjourney=horzcat(xjourney,VoronoiEdge{sectors(a,5)+1,2}(1));
+    yjourney=horzcat(yjourney,VoronoiEdge{sectors(a,5)+1,2}(2));
+    %write down x-sequence and y-sequence seperately
+    VoronoiEdge{a+1,3}=xjourney;
+    VoronoiEdge{a+1,4}=yjourney;
+    Journey{a,1}=xjourney;
+    Journey{a,2}=yjourney;
+    plot(Journey{a,1},Journey{a,2},'m', 'linewidth',3)
+end
+
 
 
 
@@ -112,11 +208,6 @@ if Theta(1)>Theta(2) & Theta(1)>Theta(3)
         %angles between lines 2 and 3
         Middle(2,3)=0.5*(Theta(2)+Theta(3));
         Middle(3,2)=Middle(2,3);
-        %{
-        VoronoiEdge{2,3}=[]
-        VoronoiEdge{3,3}=
-        VoronoiEdge{4,3}=
-        %}
     elseif Theta(2)<Theta(3)
         %angles between lines 1 and 2
         Middle(1,2)=0.5*(Theta(1)+Theta(2)-2*pi);
@@ -185,6 +276,18 @@ Start(1,:)=(0.5*[cos(Middle(1,2)) sin(Middle(1,2))])+CrossPoint;
 Start(2,:)=(0.5*[cos(Middle(2,3)) sin(Middle(2,3))])+CrossPoint;
 %start between lines 3 and 1
 Start(3,:)=(0.5*[cos(Middle(3,1)) sin(Middle(3,1))])+CrossPoint;
+a=1;
+d=1;
+while a<4
+    [Intersection] = InObstacleDetect(Start(a,1),Start(a,2), ObstacleMatrix);
+    if Intersection==1
+        Start(a,:)=Start(a,:)+[0.1 0.1]*d*((-1)^d);
+        d=d+1;
+    else
+        a=a+1;
+        d=1;
+    end
+end
 Start=horzcat(Start,zeros(3,2));
 
 

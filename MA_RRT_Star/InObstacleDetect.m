@@ -1,5 +1,6 @@
-function[Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix, Height)
+function[Intersection] = InObstacleDetect(Xnew, Ynew, ObstacleMatrix)
 Intersection=0;
+Height=height(ObstacleMatrix);
 %% Point in obstacle part
 % set k to 1 as counter of rows starting at the first row
 k=1;

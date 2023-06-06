@@ -21,8 +21,9 @@ DistanceMatrix=[randXNode randYNode]-NodeMatrix(1:i,[1 2]);
 LengthMatrix=[sqrt(DistanceMatrix(:,1).^2+DistanceMatrix(:,2).^2)];
 %find smallest length to point
 ClosestPoint=find(LengthMatrix==min(LengthMatrix));
-
-
+if height(ClosestPoint)>1
+    ClosestPoint=ClosestPoint(randi(height(ClosestPoint)));
+end
 %% Steering-part
 if LengthMatrix(ClosestPoint)>Length
     %calculate angle
@@ -35,6 +36,8 @@ end
 
 %% Assign parent with lowest cost-part
 % Select node within interval of +- Length and select node with smallest cost
+
+
 NRx=discretize(NodeMatrix(1:i,1),[randXNode-Length, randXNode+Length]);
 NRy=discretize(NodeMatrix(1:i,2),[randYNode-Length, randYNode+Length]);
 %find the row(s) where a node is within the interval of the selected node

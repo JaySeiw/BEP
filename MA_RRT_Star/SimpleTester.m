@@ -1,4 +1,5 @@
 %rng shuffle
+rng default
 %seed_obj = rng;
 %seed = seed_obj.Seed;
 %seed
@@ -69,8 +70,8 @@ Start = [
 24.7, 25, 0, 0
 25.3, 25, 0, 0];
 Goal = [16, 45, 0, 0];
-Length = 2.5;
-Nodes = 1000;
+Length = 2;
+Nodes = 500;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
 

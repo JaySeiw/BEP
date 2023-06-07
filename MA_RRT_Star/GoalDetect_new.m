@@ -4,8 +4,8 @@ Index=double.empty;
 q=0;
 for b=1:height(Goal)
     %we make a cube with a distance of 3 units around the goal, from here we discretize points
-    GoalIntx=discretize(NodeMatrix(1:end-1,1),[Goal(b,1)-Length, Goal(b,1)+Length]);
-    GoalInty=discretize(NodeMatrix(1:end-1,2),[Goal(b,2)-Length, Goal(b,2)+Length]);
+    GoalIntx=discretize(NodeMatrix(1:end,1),[Goal(b,1)-Length, Goal(b,1)+Length]);
+    GoalInty=discretize(NodeMatrix(1:end,2),[Goal(b,2)-Length, Goal(b,2)+Length]);
     %find the row(s) where a node is within the interval of the goal
     FGx=find(~isnan(GoalIntx));
     FGy=find(~isnan(GoalInty));
@@ -17,6 +17,7 @@ for b=1:height(Goal)
         L=sqrt( (NodeMatrix(Goalx(a),1)-Goal(1))^2+(NodeMatrix(Goalx(a),2)-Goal(2))^2 );
         GoalLengthMatrix(a,:)=[Goalx(a), L, NodeMatrix(Goalx(a),4)+L];
     end
+    %GoalLengthMatrix
     % find the value in column 1 of the row which matches the smallest value in column 2
     if ~isempty(GoalLengthMatrix)
         [~, row]=min(GoalLengthMatrix(:,3));

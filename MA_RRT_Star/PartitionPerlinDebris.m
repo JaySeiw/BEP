@@ -1,4 +1,4 @@
-function [Start,VoronoiEdge, Cluster1, Cluster2, Cluster3]=PartitionPerlinDebris(Xmax,Ymax,environment,ObstacleMatrix)
+function [Start,VoronoiEdge, Cluster]=PartitionPerlinDebris(Xmax,Ymax,environment,ObstacleMatrix)
 
 %rng default; % Sets default RNG value, does not save it
 t = 0;
@@ -36,10 +36,10 @@ end
 
 
 %% Data that could be used in the RRT
-
-Cluster1 = [X(idx==1,1),X(idx==1,2)];
-Cluster2 = [X(idx==2,1),X(idx==2,2)];
-Cluster3 = [X(idx==3,1),X(idx==3,2)];
+Cluster=cell(3,1);
+Cluster{1}=Cluster1;
+Cluster{2}=Cluster2;
+Cluster{3}=Cluster3;
 line1x = vx(2,1)-vx(1,1);
 line2x = vx(2,2)-vx(1,1);
 line3x = vx(2,3)-vx(1,1);
@@ -153,7 +153,6 @@ for g=1:3
     end
 end
 
-
 Journey=cell(3,2);
 sequence=cell(4,1);
 sequence{1}=[[50 0]  ; [50 50]];
@@ -187,7 +186,7 @@ for a=1:3
     VoronoiEdge{a+1,4}=yjourney;
     Journey{a,1}=xjourney;
     Journey{a,2}=yjourney;
-    plot(Journey{a,1},Journey{a,2},'m', 'linewidth',3)
+    plot(Journey{a,1},Journey{a,2},'k', 'linewidth',3)
 end
 
 

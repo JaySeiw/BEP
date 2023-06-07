@@ -1,9 +1,11 @@
-function [a, NoGoal, NodeMatrix] = GoalDetect_new(NodeMatrix, GoalMatrix, Length )
+function [q, NoGoal, Goal] = GoalDetect_new(NodeMatrix, Goal, Length )
 %% find if node is near goal, determine which node along with chain of parents gives shortest route
-for b=1:height(GoalMatrix)
+Index=double.empty;
+q=0;
+for b=1:height(Goal)
     %we make a cube with a distance of 3 units around the goal, from here we discretize points
-    GoalIntx=discretize(NodeMatrix(1:end-1,1),[GoalMatrix(b,1)-Length, GoalMatrix(b,1)+Length]);
-    GoalInty=discretize(NodeMatrix(1:end-1,2),[GoalMatrix(b,2)-Length, GoalMatrix(b,2)+Length]);
+    GoalIntx=discretize(NodeMatrix(1:end-1,1),[Goal(b,1)-Length, Goal(b,1)+Length]);
+    GoalInty=discretize(NodeMatrix(1:end-1,2),[Goal(b,2)-Length, Goal(b,2)+Length]);
     %find the row(s) where a node is within the interval of the goal
     FGx=find(~isnan(GoalIntx));
     FGy=find(~isnan(GoalInty));
@@ -19,15 +21,19 @@ for b=1:height(GoalMatrix)
     if ~isempty(GoalLengthMatrix)
         [~, row]=min(GoalLengthMatrix(:,3));
         GoalParentNode=GoalLengthMatrix(row , 1); %we can probably refine this part here, but it works
-        GoalMatrix(b,[3, 4])=[GoalParentNode, GoalLengthMatrix(row,3)];
+        Goal(b,[3, 4])=[GoalParentNode, GoalLengthMatrix(row,3)];
         %Have to set some variables here to draw right amount of lines and declare that a path to the goal has been found
-        a=2;
-        NoGoal=0;
+        q=q+1;
     else
-        NoGoal=1;
-        a=1;
-        disp('No goal found for goal'); Goalmatrix(b,[1,2])
+        %disp('No goal found for goal'); Goal(b,[1,2])
+        Index=vertcat(Index, b);
     end
 end
-vertcat(NodeMatrix,GoalMatrix)
+NoGoalMatrix=Goal(Index,[1 2]);
+Goal(Index,:)=[];
+if ~isempty(Goal)
+    NoGoal=0;
+else
+    NoGoal=1;
+end
 end

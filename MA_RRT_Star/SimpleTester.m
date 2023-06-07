@@ -72,7 +72,7 @@ Start = [
 25.3, 25, 0, 0];
 Goal = [16, 45, 0, 0];
 Length = 2;
-Nodes = 500;
+Nodes = 250;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
 
@@ -83,4 +83,4 @@ environment=partitioned;
 %nodes = 3000;
 %num_runs = 10; %the number of times to run each scenario
 
-[~,~,~,NodeMatrix]=MA_RRT_star(environment, Goal, Length, Nodes);
+[~,~,~,NodeMatrix]=MA_RRT_star(environment, Length, Nodes);

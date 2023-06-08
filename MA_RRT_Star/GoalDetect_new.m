@@ -4,18 +4,20 @@ Index=double.empty;
 q=0;
 for b=1:height(Goal)
     %we make a cube with a distance of 3 units around the goal, from here we discretize points
-    GoalIntx=discretize(NodeMatrix(1:end,1),[Goal(b,1)-Length, Goal(b,1)+Length]);
-    GoalInty=discretize(NodeMatrix(1:end,2),[Goal(b,2)-Length, Goal(b,2)+Length]);
+    GoalIntx=discretize(NodeMatrix(:,1),[Goal(b,1)-Length, Goal(b,1)+Length]);
+    GoalInty=discretize(NodeMatrix(:,2),[Goal(b,2)-Length, Goal(b,2)+Length]);
     %find the row(s) where a node is within the interval of the goal
     FGx=find(~isnan(GoalIntx));
     FGy=find(~isnan(GoalInty));
     %find which points are on both intervals using intersect function
     Goalx=intersect(FGx, FGy);
     %take height from this matrix to create a length matrix, where we can quickly filter out the node closest to the goal.... But does this mean it is also on the shortest path?
-    GoalLengthMatrix=zeros(height(Goalx),3);
+    GoalLengthMatrix=double.empty;
     for a=1:height(Goalx)
-        L=sqrt( (NodeMatrix(Goalx(a),1)-Goal(1))^2+(NodeMatrix(Goalx(a),2)-Goal(2))^2 );
-        GoalLengthMatrix(a,:)=[Goalx(a), L, NodeMatrix(Goalx(a),4)+L];
+        L=sqrt( (NodeMatrix(Goalx(a),1)-Goal(b,1))^2+(NodeMatrix(Goalx(a),2)-Goal(b,2))^2 );
+        if L<=Length
+        GoalLengthMatrix=vertcat(GoalLengthMatrix,[Goalx(a), L, NodeMatrix(Goalx(a),4)+L]);
+        end
     end
     %GoalLengthMatrix
     % find the value in column 1 of the row which matches the smallest value in column 2

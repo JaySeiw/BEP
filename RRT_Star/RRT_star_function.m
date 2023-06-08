@@ -20,7 +20,7 @@ NodeMatrix=zeros(Nodes,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 node_count=1; %initialize node count to 1
-
+%{
 %% AnimationCode START
 % Initialize the figure for animation
 figure('Name', 'RRT* Animation', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]);
@@ -52,7 +52,7 @@ linesDraw = [];
 frames = {};
 
 %% AnimmationCode END
-
+%}
 
 %% RRT Algorithm
 i=1;
@@ -69,7 +69,8 @@ while i<Nodes+1
         NodeMatrix(i+1,:)=[Xnew Ynew Parent Cost];
         [NodeMatrix] = NodeRewire (NodeMatrix, Length,i, edges); %something that has to do with i-rows, makes this code retstart itself sometimes at the same i value
         node_count= node_count+1; %Increment node count
-        %% AnimationCode START
+        %{
+%% AnimationCode START
         % Add the new node to the plot
         nodeDraw = scatter(Xnew, Ynew, 'r.');
 
@@ -84,6 +85,7 @@ while i<Nodes+1
         drawnow
         % Capture the frame for GIF
         frames{i} = getframe(gcf);
+        %} 
         %% AnimationCode END
         %% Loop Continue
         i=i+1;
@@ -95,11 +97,11 @@ NodeMatrix(end+1,:)=Goal;
 
 
 %% Find parent for the goal node
-[~, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
+[a, NoGoal, NodeMatrix] = GoalDetect(NodeMatrix, Goal, Length );
 
 
 %% Drawing part
-%{
+
 % Hi, I have enlarged the size of the figure down here starting from 'units'
 figure ('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]);
 %hold on so that all further drawings are stacked on top of eachother
@@ -125,7 +127,7 @@ end
 legend
 %Scatter all the nodes as red dots
 scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'Node');
-%}
+
 if NoGoal==0
     %%change road to goal from blue mark to green mark
     p=Nodes+2;
@@ -147,12 +149,13 @@ if NoGoal==0
         p=NodeMatrix(p,3);
     end
 end
-%{
+
 %Scatter the start
 scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Start');
 %Scatter the goal
 scatter(NodeMatrix(end,1),NodeMatrix(end,2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Goal');
-%}
+
+%{
 %% AnimationCode START
 filename = 'C:\Users\Frank\Documents\GitHub\BEP\RRT_Star\Images\RRTStarAnimation.gif';
 for i = 1:Nodes+no_of_nodes_path
@@ -165,3 +168,4 @@ for i = 1:Nodes+no_of_nodes_path
         imwrite(imind, cm, filename, 'gif', 'WriteMode', 'append', 'DelayTime', 0.0000001);
     end
 end
+%}

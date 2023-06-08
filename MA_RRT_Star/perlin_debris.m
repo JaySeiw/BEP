@@ -12,7 +12,7 @@ troughs = im < thresh;
 [ObstacleMatrix, RectangleMatrix ,~]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 
-no_of_debris=20;
+no_of_debris=45;
 debris=zeros(no_of_debris,2);
 i=1;
 while i<no_of_debris+1

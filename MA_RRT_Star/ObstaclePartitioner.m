@@ -29,13 +29,13 @@ for a=1:3
     %now we will check if obstacle is inside polygon by checking the entire obstacle through verifying that all edge points are inside
     c=1;
     while c~=height(edges)+1
-        [in1, on1] =inpolygon(edges([c, c+1, c+2, c+3],[1 3]), edges([c, c+1, c+2, c+3],[2 4]), Xtr, Ytr);
+        [in, on] =inpolygon(edges([c, c+1, c+2, c+3],[1 3]), edges([c, c+1, c+2, c+3],[2 4]), Xtr, Ytr);
         %[in2, on2] =inpolygon(edges(c+1,[1 3]), edges(c+1,[2 4]), Xtr, Ytr);
         %[in3, on3] =inpolygon(edges(c+2,[1 3]), edges(c+2,[2 4]), Xtr, Ytr);
         %[in4, on4] =inpolygon(edges(c+3,[1 3]), edges(c+3,[2 4]), Xtr, Ytr);
         %buzz=[in1, on1]
         for d=1:4
-            if in1(d)==1&on1(d)==0
+            if in(d)==1&on(d)==0
                 %in1(d,[1 2])
                 %on1(d,[1 2])
                 %hush=edges(c+d-1,:)

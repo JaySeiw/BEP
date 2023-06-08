@@ -56,13 +56,21 @@ narrowgap=[1,12,41,2,7;
              7,14,6,3,12;
              8,25,2,12,3;
              9,0,18.5,20,7];
+partitioned=[
+1,2,3,4,4;
+2,45,45,5,5;
+3,35,2,4,4;
+4,30,24,6,6;
+5,22,35,4,5;
+6,3,17,4,8;
+7,12,35,9,1];
 %% Input values
 start = [30, 0, 0, 0];
 goal = [16, 45, 0, 0];
 length = 3;
-nodes = 500;
+nodes = 3000;
 num_runs = 1; %the number of times to run each scenario
-environment=Ugoal;
+environment=partitioned;
 
 
 %start = [4, 5, 0];
@@ -71,4 +79,4 @@ environment=Ugoal;
 %nodes = 3000;
 %num_runs = 10; %the number of times to run each scenario
 
-[~,~,~,NodeMatrix]=RRT_star_function(environment, start, goal, length, nodes);
+[~,~,~,NodeMatrix]=RRT_star_function(environment, start, length, nodes);

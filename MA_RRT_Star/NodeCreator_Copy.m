@@ -6,8 +6,8 @@ function [Xnew, Ynew, Parent, Cost] = NodeCreator_Copy(Xmax, Ymax, NodeMatrix, L
 DiceThrow=100*rand;
 Percentage=1-(i/Nodes);
 if DiceThrow<Percentage%||i==1
-    randXNode=Goal(1,1)+0*rand;
-    randYNode=Goal(1,2)+0*rand;
+    randXNode=Goal(randi(height(Goal)),1)+0*rand;
+    randYNode=Goal(randi(height(Goal)),2)+0*rand;
 else
     randXNode=Xmax*rand;
     randYNode=Ymax*rand;

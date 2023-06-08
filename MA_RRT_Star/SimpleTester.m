@@ -1,10 +1,10 @@
 %rng shuffle
-rng default
+%rng default
 %seed_obj = rng;
 %seed = seed_obj.Seed;
 %seed
 % insert seed below and comment out above to fix seed
-%rng(635208054);
+rng(887681793);
 %Rectangle matrix where columns are: index, x, y, w, h
 %% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
@@ -72,7 +72,7 @@ Start = [
 25.3, 25, 0, 0];
 Goal = [16, 45, 0, 0];
 Length = 2;
-Nodes = 250;
+Nodes = 1000;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
 

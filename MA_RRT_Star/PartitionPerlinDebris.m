@@ -36,10 +36,7 @@ end
 
 
 %% Data that could be used in the RRT
-Cluster=cell(3,1);
-Cluster{1}=Cluster1;
-Cluster{2}=Cluster2;
-Cluster{3}=Cluster3;
+
 line1x = vx(2,1)-vx(1,1);
 line2x = vx(2,2)-vx(1,1);
 line3x = vx(2,3)-vx(1,1);
@@ -189,6 +186,25 @@ for a=1:3
     plot(Journey{a,1},Journey{a,2},'k', 'linewidth',3)
 end
 
+Clusters=cell(3,1);
+Clusters{1}=Cluster1;
+Clusters{2}=Cluster2;
+Clusters{3}=Cluster3;
+Cluster=cell(3,1);
+for k=1:3
+    Xtr=[VoronoiEdge{k+1,1}(1) VoronoiEdge{k+1,3} VoronoiEdge{k+1,1}(1)];
+    Ytr=[VoronoiEdge{k+1,1}(2) VoronoiEdge{k+1,4} VoronoiEdge{k+1,1}(2)];
+    m=1;
+    while m<4
+        [in, ~] =inpolygon(C(m,1),C(m,2), Xtr, Ytr);
+        if in==1
+            Cluster{k}=Clusters{m};
+            m=4;
+        else
+            m=m+1;
+        end
+    end
+end
 
 
 

@@ -31,8 +31,6 @@ if LengthMatrix(ClosestPoint)>Length
     randXNode=Length*cos(theta)+NodeMatrix(ClosestPoint,1);
     randYNode=Length*sin(theta)+NodeMatrix(ClosestPoint,2);
 end
-
-
 %% Assign parent with lowest cost-part
 % Select node within interval of +- Length and select node with smallest cost
 NRx=discretize(NodeMatrix(1:i,1),[randXNode-Length, randXNode+Length]);

@@ -7,7 +7,6 @@ Xmax=50;
 Ymax=50;
 [ObstacleMatrix, RectangleMatrix ,edges]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
 Height=height(RectangleMatrix);
-NodeMatrix=zeros(Nodes,4);
 node_count=1; %initialize node count to 1
 %Partition the debris into voronoi regions
 [Start, VoronoiEdge, Cluster]=PartitionPerlinDebris(Xmax,Ymax,environment, ObstacleMatrix);
@@ -20,6 +19,7 @@ NodeMatrices=cell(3,1);
 
 %for loop for each partition one
 for a=1:3
+    NodeMatrix=zeros(Nodes,4);
     Goal=Cluster{a};
     NodeMatrix(1,:)=Start(a,:);
     edges=Edges{a+1};
@@ -79,7 +79,7 @@ for a=1:3
         while p>1
             dxG= [NodeMatrices{a}(p,1), NodeMatrices{a}(NodeMatrices{a}(p,3),1)];
             dyG= [NodeMatrices{a}(p,2), NodeMatrices{a}(NodeMatrices{a}(p,3),2)];
-            plot(dxG, dyG, 'g', 'LineWidth',2, 'HandleVisibility','off');
+            plot(dxG, dyG, 'w', 'LineWidth',2, 'HandleVisibility','off');
             % increment the counter variable by 1 for each node in the line
             no_of_nodes_path = no_of_nodes_path + 1;
             % calculate the distance between the current node and the next node

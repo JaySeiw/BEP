@@ -19,7 +19,7 @@ NodeMatrix(1,:)=Start; % Add start to nodematrix
 
 
 % Goal node
-Goal=[46,46,0];
+%Goal=[46,46,0];
 %% AnimationCode START
 % Initialize the figure for animation
 %figure('Name', 'RRT Animation', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8]);
@@ -36,9 +36,9 @@ scatter(NodeMatrix(1, 1), NodeMatrix(1, 2), 'md', 'filled', 'MarkerEdgeColor', '
 scatter(Goal(1, 1), Goal(1, 2), 'mh', 'filled', 'MarkerEdgeColor', 'black', 'LineWidth', 3);
 
 % Initialize an empty array to store line handles
-linesDraw = [];
+%linesDraw = [];
 % Create a cell array to store frames for GIF
-frames = {};
+%frames = {};
 
 %% AnimmationCode END
 %% Loop START
@@ -59,19 +59,19 @@ while i<Nodes+1
         NodeMatrix(end+1,:)=[Xnew Ynew Parent];
                 %% AnimationCode START
         % Add the new node to the plot
-        nodeDraw = scatter(Xnew, Ynew, 'r.');
+        %nodeDraw = scatter(Xnew, Ynew, 'r.');
 
         % Plot the line between the new node and its parent
         
-        parentX = NodeMatrix(Parent, 1);
-        parentY = NodeMatrix(Parent, 2);
-        lineDraw = plot([parentX, Xnew], [parentY, Ynew], 'b');
-        linesDraw = [linesDraw, lineDraw];
+        %parentX = NodeMatrix(Parent, 1);
+        %parentY = NodeMatrix(Parent, 2);
+        %lineDraw = plot([parentX, Xnew], [parentY, Ynew], 'b');
+        %linesDraw = [linesDraw, lineDraw];
     
         % Update the plot
-        drawnow
+        %drawnow
         % Capture the frame for GIF
-        frames{i} = getframe(gcf);
+        %frames{i} = getframe(gcf);
         %% AnimationCode END
         %% Loop Continue
         i=i+1;
@@ -148,12 +148,13 @@ if NoGoal==0
         plot(dxG, dyG, 'g', 'LineWidth',2);
         p=NodeMatrix(p,3);
         %% AnimationCode START
-        drawnow
-        frames{i} = getframe(gcf);
+        %drawnow
+        %frames{i} = getframe(gcf);
         %% AnimationCode END
         %% Continuation of loop
     end
 end
+%{
 %% AnimationCode START
 filename = 'C:\Users\Frank\Documents\GitHub\BEP\RRT\Images\Rrt_Animation';
 for i = 1:Nodes+no_of_nodes_path
@@ -167,3 +168,4 @@ for i = 1:Nodes+no_of_nodes_path
     end
 end
 %% AnimationCode END
+%}

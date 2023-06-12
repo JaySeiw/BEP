@@ -6,7 +6,7 @@ im = zeros(Xmax, Ymax);
 im = perlin_noise(im);
 
 % Find troughs in the Perlin noise image
-thresh = 0.001; % Threshold to determine troughs
+thresh = min(im)+2; % Threshold to determine troughs
 troughs = im < thresh;
 
 [ObstacleMatrix, RectangleMatrix ,~]=EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
@@ -44,6 +44,26 @@ end
 %plot debris
 plot(debris(:,1),debris(:,2), 'm.');
 %set(gca, 'YDir','reverse')
+
+
+% Create 3D plot
+    [X, Y] = meshgrid(1:Xmax, 1:Ymax);
+    figure;
+    surf(X, Y, im);
+    
+    % Set plot properties
+    shading interp; % Interpolate colors between vertices
+    colormap jet;  % Choose a colormap (you can change it if desired)
+    axis tight;    % Fit the axes tightly around the plot
+    view(3);       % Set the view to 3D
+    
+    % Label the axes
+    xlabel('X');
+    ylabel('Y');
+    zlabel('Perlin Noise');
+
+
+
 function im = perlin_noise(im)
 
     [Xmax, Ymax] = size(im);
@@ -56,7 +76,7 @@ function im = perlin_noise(im)
         im = im + i * d(1:Xmax, 1:Ymax);
         w = w - ceil(w/2 - 1);
     end
-end 
+ end
 
 end
 

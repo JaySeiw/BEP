@@ -9,14 +9,16 @@ FGy=find(~isnan(GoalInty));
 %find which points are on both intervals using intersect function
 Goalx=intersect(FGx, FGy);
 %take height from this matrix to create a length matrix, where we can quickly filter out the node closest to the goal.... But does this mean it is also on the shortest path?
-GoalLengthMatrix=zeros(height(Goalx),3);
+GoalLengthMatrix=double.empty;
 for a=1:height(Goalx)
     L=sqrt( (NodeMatrix(Goalx(a),1)-Goal(1))^2+(NodeMatrix(Goalx(a),2)-Goal(2))^2 );
-    GoalLengthMatrix(a,:)=[Goalx(a), L, NodeMatrix(Goalx(a),4)+L];
+    if L<=Length
+        GoalLengthMatrix=vertcat(GoalLengthMatrix,[Goalx(a), L, NodeMatrix(Goalx(a),4)+L]);
+    end
 end
 % find the value in column 1 of the row which matches the smallest value in column 2
 if ~isempty(GoalLengthMatrix)
-    [val, row]=min(GoalLengthMatrix(:,3));
+    [~, row]=min(GoalLengthMatrix(:,3));
     %row
     GoalParentNode=GoalLengthMatrix(row , 1); %we can probably refine this part here, but it works
     NodeMatrix(end,[3, 4])=[GoalParentNode, GoalLengthMatrix(row,3)];

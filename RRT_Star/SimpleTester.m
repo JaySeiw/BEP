@@ -3,7 +3,8 @@
 %seed = seed_obj.Seed;
 %seed
 % insert seed below and comment out above to fix seed
-%rng(635208054);
+%seeds=[919866024, 919878833, 919883223, 919943020, 919947152]
+%rng(919947152);
 %Rectangle matrix where columns are: index, x, y, w, h
 %% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
@@ -63,11 +64,11 @@ partitioned=[
 4,30,24,6,6;
 5,22,35,4,5;
 6,3,17,4,8;
-7,12,35,9,1];
+7,12,35,10,1];
 %% Input values
-start = [30, 0, 0, 0];
-goal = [16, 45, 0, 0];
-length = 3;
+Start = [40, 45, 0, 0];
+Goal = [1, 5, 0, 0];
+length = 2.5;
 nodes = 3000;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
@@ -79,4 +80,4 @@ environment=partitioned;
 %nodes = 3000;
 %num_runs = 10; %the number of times to run each scenario
 
-[~,~,~,NodeMatrix]=RRT_star_function(environment, start, length, nodes);
+[~,~,~,NodeMatrix]=RRT_star_function(environment,Goal, Start, length, nodes);

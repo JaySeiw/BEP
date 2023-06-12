@@ -196,7 +196,6 @@ for k=1:3
     Ytr=[VoronoiEdge{k+1,1}(2) VoronoiEdge{k+1,4} VoronoiEdge{k+1,1}(2)];
     m=1;
     while m<4
-        C(m,:)
         [in, ~] =inpolygon(C(m,1),C(m,2), Xtr, Ytr);
         if in==1
             Cluster{k}=Clusters{m};

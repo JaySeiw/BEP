@@ -1,4 +1,4 @@
-function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment, Start, Length, Nodes)
+function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment,Goal, Start, Length, Nodes)
 close all hidden
 %function [outputs] = name(inputs); i am just a sample
 
@@ -11,10 +11,10 @@ Ymax=50;
 
 Height=height(RectangleMatrix); % Count rows of RectangleMatrix
 
-[debris,im]=perlin_debris(environment);
+%[debris,im]=perlin_debris(environment);
 
-goal= debris(1,:);
-Goal=[goal,0,0];
+%goal= debris(1,:);
+%Goal=[goal,0,0];
 
 NodeMatrix=zeros(Nodes,4);
 NodeMatrix(1,:)=Start; % Add start to nodematrix
@@ -138,8 +138,8 @@ if NoGoal==0
         dyG= [NodeMatrix(p,2), NodeMatrix(NodeMatrix(p,3),2)];
         plot(dxG, dyG, 'g', 'LineWidth',2, 'HandleVisibility','off');
         %% AnimationCode START
-        drawnow
-        frames{i} = getframe(gcf);
+        %drawnow
+        %frames{i} = getframe(gcf);
         %% AnimationCode END
         %% Continuation of loop
         % increment the counter variable by 1 for each node in the line

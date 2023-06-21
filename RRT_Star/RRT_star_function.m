@@ -107,7 +107,7 @@ figure ('Name','Nodes', 'units', 'normalized', 'outerposition', [0.2 0.1 0.6 0.8
 %hold on so that all further drawings are stacked on top of eachother
 hold on
 axis([0, Xmax, 0, Ymax]);
-axis padded
+axis off
 % Draw all rectangles
 for q=1:Height
     rectangle('position', RectangleMatrix(q,[2,3,4,5]), 'FaceColor','black');
@@ -120,13 +120,13 @@ while k<Nodes+a+1
     dx=[NodeMatrix(k,1), NodeMatrix(NodeMatrix(k,3),1)];
     dy=[NodeMatrix(k,2), NodeMatrix(NodeMatrix(k,3),2)];
     %plot the line with a blue colour
-    plot(dx, dy, 'b', 'HandleVisibility','off');
+    plot(dx, dy, 'b', 'HandleVisibility','off', 'LineWidth',1.25);
     %cycle to next row
     k=k+1;
 end
-legend
+%legend
 %Scatter all the nodes as red dots
-scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'Node');
+scatter(NodeMatrix(2:Nodes+1,1),NodeMatrix(2:Nodes+1,2),'r.', 'DisplayName', 'Node','LineWidth',100);
 
 if NoGoal==0
     %%change road to goal from blue mark to green mark
@@ -151,9 +151,9 @@ if NoGoal==0
 end
 
 %Scatter the start
-scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Start');
+scatter(NodeMatrix(1,1),NodeMatrix(1,2),60, 'md', "filled", 'MarkerEdgeColor', 'Black','LineWidth',6, 'DisplayName', 'Start');
 %Scatter the goal
-scatter(NodeMatrix(end,1),NodeMatrix(end,2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',1, 'DisplayName', 'Goal');
+scatter(NodeMatrix(end,1),NodeMatrix(end,2),90, 'mh', "filled", 'MarkerEdgeColor', 'Black','LineWidth',6, 'DisplayName', 'Goal');
 
 %{
 %% AnimationCode START

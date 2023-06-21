@@ -1,4 +1,4 @@
-function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_star_function(environment,Goal, Start, Length, Nodes)
+function [node_count, no_of_nodes_path, len_path, NodeMatrix]=RRT_Star(environment,Goal, Start, Length, Nodes)
 close all hidden
 %function [outputs] = name(inputs); i am just a sample
 

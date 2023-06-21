@@ -76,7 +76,7 @@ length = 2.5;
 nodes = 3000;
 num_runs = 1; %the number of times to run each scenario
 environment=partitioned;
-[node_count, no_of_nodes_path, len_path] = RRTfunctionCopy(environment,start,goal,length,nodes);
+[node_count, no_of_nodes_path, len_path] = RRT(environment,start,goal,length,nodes);
 
 
 %{

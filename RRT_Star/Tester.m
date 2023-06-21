@@ -1,11 +1,10 @@
-rng shuffle
-%rng default
-seed_obj = rng;
-seed = seed_obj.Seed;
-seed
-%seeds=[919866024, 919878833, 919883223, 919943020, 919947152]
+%rng shuffle
+%seed_obj = rng;
+%seed = seed_obj.Seed;
+%seed
 % insert seed below and comment out above to fix seed
-%rng(887681793);
+%seeds=[919866024, 919878833, 919883223, 919943020, 919947152]
+%rng(919947152);
 %Rectangle matrix where columns are: index, x, y, w, h
 %% Scenario with a U-shaped obstacle around the start
 Ustart= [1,1,3,2,7; 
@@ -66,24 +65,12 @@ partitioned=[
 5,22,35,4,5;
 6,3,17,4,8;
 7,12,35,10,1];
-
-
 %% Input values
-Start = [
-25, 25.3, 0, 0;
-24.7, 25, 0, 0
-25.3, 25, 0, 0];
-Goal = [16, 45, 0, 0];
-Length = 2.5;
-Nodes = 1000;
-num_runs = 1; %the number of times to run each scenario
+Start = [40, 45, 0, 0];
+Goal = [1, 5, 0, 0];
+length = 2.5;
+nodes = 3000;
 environment=partitioned;
 
 
-%start = [4, 5, 0];
-%goal = [16, 45, 0];
-%length = 3;
-%nodes = 3000;
-%num_runs = 10; %the number of times to run each scenario
-
-[~,~,~,NodeMatrix]=MA_RRT_star(environment, Length, Nodes);
+[~,~,~,NodeMatrix]=RRT_Star(environment,Goal, Start, length, nodes);

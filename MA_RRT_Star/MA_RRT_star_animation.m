@@ -1,12 +1,10 @@
-function [node_count, no_of_nodes_path, len_path, NodeMatrix] = MA_RRT_star(environment)
+function [node_count, no_of_nodes_path, len_path, NodeMatrix] = MA_RRT_star_animation(environment, Length, Nodes)
 
     plot_data = struct;
 
     % Global variables:
     Xmax=50;
     Ymax=50;
-    Length = 2.5;
-    Nodes = 1000;
     
     [ObstacleMatrix, RectangleMatrix, edges] = EnvironmentBuilder(environment); %Obstaclematrix: [x1,y1,x2,y2], edges:  N x [x1, y1, x2, y2]
     Height=height(RectangleMatrix);
